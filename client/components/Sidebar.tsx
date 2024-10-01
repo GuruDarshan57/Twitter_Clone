@@ -34,7 +34,7 @@ const Sidebar = () => {
             <Link href="/home" className='text-3xl p-3 rounded-full hover:bg-gray-900 transition-all'><FaXTwitter/></Link>
         </div>
         <div className="pt-1 flex flex-col">
-          {sidebar_menu_items.map(item=><div className="flex gap-3 w-fit rounded-full p-2 px-4 py-3 cursor-pointer text-3xl items-center justify-start hover:bg-gray-900">{item.icon}<span className='text-lg font-bold tracking-wider'>{item.name}</span></div>)}
+          {sidebar_menu_items.map(item=><div key={item.name} className="flex gap-3 w-fit rounded-full p-2 px-4 py-3 cursor-pointer text-3xl items-center justify-start hover:bg-gray-900">{item.icon}<span className='text-lg font-bold tracking-wider'>{item.name}</span></div>)}
         </div>
         <div className='flex w-full pt-2'>
           <button className='p-2 mr-4 text-lg font-bold tracking-wider bg-sky-700 hover:bg-sky-800 w-full rounded-full'>Post</button>
