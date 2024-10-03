@@ -8,7 +8,7 @@ import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { MdBookmarkBorder } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
 
-const FeedCard = () => {
+const Tweet = () => {
   return (
     <div className="w-full flex p-2 pr-4 border-b-2 border-gray-800 text-gray-200 tracking-wide hover:bg-gray-950">
       <div className="w-32 flex justify-center items-start">
@@ -51,7 +51,7 @@ const FeedCard = () => {
             width={400}
           />
         </div>
-        <div className="flex my-1 justify-between text-xl text-gray-500">
+        <div className="flex justify-between text-xl text-gray-500">
           <div className="flex flex-1 justify-between relative -left-2">
             <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer">
               <IoChatbubbleOutline />
@@ -84,4 +84,4 @@ const FeedCard = () => {
   );
 };
 
-export default FeedCard;
+export default Tweet;
