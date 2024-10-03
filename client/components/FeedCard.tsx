@@ -15,37 +15,37 @@ const FeedCard = () => {
         <Image
           className="rounded-full h-fit cursor-pointer"
           src={"/assets/user_img.webp"}
-          height={35}
-          width={35}
+          height={37}
+          width={37}
           alt="Profile Photo"
         />
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold cursor-pointer hover:underline">
+            <span className="text-base font-bold cursor-pointer hover:underline">
               GuruDarshan
             </span>
-            <span className="text-xs text-gray-300 cursor-pointer">
+            <span className="text-sm text-gray-300 cursor-pointer">
               @guru573116 .{" "}
             </span>
-            <span className="text-xs text-gray-300 cursor-pointer hover:underline">
+            <span className="text-sm text-gray-300 cursor-pointer hover:underline">
               1 Oct
             </span>
           </div>
-          <div className="text-lg text-gray-300 cursor-pointer hover:bg-blue-950 p-1 rounded-xl">
+          <div className="text-xl text-gray-300 cursor-pointer hover:bg-blue-950 p-1 rounded-xl">
             <IoIosMore />
           </div>
         </div>
-        <div className="flex text-justify text-sm cursor-pointer">
+        <div className="flex text-justify text-base cursor-pointer">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore
           modi earum sunt repellendus laudantium cupiditate aliquid aliquam
           asperiores ex architecto!
         </div>
-        <div className="flex w-full py-4 cursor-pointer">
+        <div className="flex w-full justify-center pr-2 py-4 cursor-pointer">
           <Image
-            className="w-full rounded-xl"
-            src="/assets/post_img.jpeg"
+            className="w-fit h-72 object-contain rounded-xl"
+            src="https://images.unsplash.com/photo-1726682577615-728e4272a60c?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Post Image"
             height={600}
             width={400}
