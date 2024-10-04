@@ -11,5 +11,10 @@
   "devDependencies": {
     "tsc-watch": "^6.2.0",
     "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.11.0",
+    "body-parser": "^1.20.3",
+    "graphql": "^16.9.0"
   }
 }
