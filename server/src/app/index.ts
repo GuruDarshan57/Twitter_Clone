@@ -6,6 +6,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 export default async function initilizeServer() {
   const app = express();
   app.use(bodyParser.json());
+
   const graphqlServer = new ApolloServer({
     typeDefs: `
     type Query {
