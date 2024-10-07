@@ -17,19 +17,19 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const server_1 = require("@apollo/server");
 const express4_1 = require("@apollo/server/express4");
+const index_1 = require("./user/index");
 function initilizeServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = (0, express_1.default)();
         app.use(body_parser_1.default.json());
         const graphqlServer = new server_1.ApolloServer({
-            typeDefs: `
+            typeDefs: `#graphql
+    ${index_1.User.types}
     type Query {
-      hello: String
+      ${index_1.User.query}
     }`,
             resolvers: {
-                Query: {
-                    hello: () => "Hello from Apollo",
-                },
+                Query: Object.assign({}, index_1.User.resolvers.queries),
             },
         });
         yield graphqlServer.start();

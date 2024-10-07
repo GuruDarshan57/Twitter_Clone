@@ -1,13 +1,10 @@
 "use client";
 import React from "react";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 
 const RightBar = () => {
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
-  });
   return (
     <div className="h-screen max-h-screen w-full p-2 pt-4 pl-6 overflow-y-scroll hidescrollbar">
       <div className="flex flex-col gap-4 border-2 border-gray-800 rounded-xl px-4 py-3">
@@ -18,16 +15,24 @@ const RightBar = () => {
           </p>
         </div>
         <div className="flex flex-col gap-4">
-          <div
-            className="bg-white text-black p-1 py-2 rounded-full flex justify-center items-center gap-2 font-bold cursor-pointer hover:bg-slate-100"
-            onClick={() => {
-              login();
-            }}
-          >
-            <span className="text-xl">
+          <div className="bg-white text-black rounded-full flex justify-center items-center gap-2 font-bold cursor-pointer hover:bg-slate-100">
+            {/* <span className="text-xl">
               <FcGoogle />
             </span>
-            <span>Sign up with Google</span>
+            <span>Sign up with Google</span> */}
+            <GoogleLogin
+              text={"signup_with"}
+              shape="pill"
+              width={300}
+              logo_alignment="center"
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+              useOneTap
+            />
           </div>
           <div className="bg-white text-black p-1 py-2 rounded-full flex justify-center items-center gap-2  font-bold cursor-not-allowed hover:bg-slate-100">
             <span className="text-xl">
