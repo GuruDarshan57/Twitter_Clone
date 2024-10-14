@@ -21,3 +21,14 @@ body{
 .hidescrollbar::-webkit-scrollbar{
     display: none;
 }
+
+/* loader */
+.loader {
+    width: 27px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 3px solid rgb(14, 14, 15);
+    border-right-color: rgb(13, 119, 225);
+    animation: l2 1s infinite linear;
+  }
+  @keyframes l2 {to{transform: rotate(1turn)}}
