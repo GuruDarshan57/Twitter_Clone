@@ -55,7 +55,7 @@ const Tweet = () => {
           <div className="flex flex-1 justify-between relative -left-2">
             <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer">
               <IoChatbubbleOutline />
-              <span className="text-sm">201</span>
+              <span className="text-sm place-content-center">201</span>
             </span>
             <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-green-700 p-1 px-2 rounded-full cursor-pointer">
               <LuRepeat2 />

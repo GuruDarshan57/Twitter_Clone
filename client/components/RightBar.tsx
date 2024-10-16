@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 
 const RightBar = () => {
@@ -23,7 +22,7 @@ const RightBar = () => {
             <GoogleLogin
               text={"signup_with"}
               shape="pill"
-              width={300}
+              width={200}
               logo_alignment="center"
               onSuccess={(credentialResponse) => {
                 console.log(credentialResponse);
