@@ -3,6 +3,7 @@ import "@styles/globals.css";
 import Sidebar from "@components/Leftbar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import RightBar from "@components/RightBar";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "",
@@ -20,7 +21,7 @@ export default function RootLayout({
       <title>X - Clone</title>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap"
           rel="stylesheet"
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body>
         <GoogleOAuthProvider clientId="720949350429-a2bsge3dno32g7a6n3nnem30ao3m2t1k.apps.googleusercontent.com">
           <div className="w-full h-full px-28 grid grid-cols-10">
+            <Toaster position="top-center" reverseOrder={false} />
             <div className="h-full col-span-2">
               <Sidebar />
             </div>
