@@ -14,7 +14,7 @@ const RightBar = () => {
           </p>
         </div>
         <div className="flex flex-col gap-4">
-          <div className="bg-white text-black rounded-full flex justify-center items-center gap-2 font-bold cursor-pointer hover:bg-slate-100">
+          <div className="text-black rounded-full flex justify-center items-center gap-2 font-bold cursor-pointer hover:bg-slate-100 overflow-hidden">
             {/* <span className="text-xl">
               <FcGoogle />
             </span>
@@ -22,7 +22,7 @@ const RightBar = () => {
             <GoogleLogin
               text={"signup_with"}
               shape="pill"
-              width={200}
+              width={300}
               logo_alignment="center"
               onSuccess={(credentialResponse) => {
                 console.log(credentialResponse);

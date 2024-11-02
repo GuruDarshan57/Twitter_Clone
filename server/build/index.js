@@ -17,6 +17,9 @@ function init() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = yield (0, app_1.default)();
         app.listen(8000, () => console.log("Server started"));
+        app.get("/", (req, res) => {
+            res.send("<h1 style='color:green'>Server is up and running</h1>");
+        });
     });
 }
 init();

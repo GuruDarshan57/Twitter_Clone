@@ -18,7 +18,14 @@ export default function RootLayout({
     <html lang="en">
       <link rel="shortcut icon" href="/assets/x_logo.jpg" type="image/x-icon" />
       <title>X - Clone</title>
-
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         <GoogleOAuthProvider clientId="720949350429-a2bsge3dno32g7a6n3nnem30ao3m2t1k.apps.googleusercontent.com">
           <div className="w-full h-full px-28 grid grid-cols-10">

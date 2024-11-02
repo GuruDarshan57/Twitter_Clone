@@ -37,7 +37,7 @@ const Tweet = () => {
             <IoIosMore />
           </div>
         </div>
-        <div className="flex text-justify text-base cursor-pointer">
+        <div className="flex text-justify text-sm cursor-pointer">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore
           modi earum sunt repellendus laudantium cupiditate aliquid aliquam
           asperiores ex architecto!

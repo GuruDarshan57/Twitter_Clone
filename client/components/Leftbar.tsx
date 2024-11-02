@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FaXTwitter } from "react-icons/fa6";
 import { GoHome } from "react-icons/go";
@@ -16,12 +17,19 @@ import Link from "next/link";
 interface Menuitem {
   name: string;
   icon: React.ReactNode;
+  activeIcon?: React.ReactNode;
   functional: boolean;
   redirect?: string;
 }
 
 const sidebar_menu_items: Menuitem[] = [
-  { name: "Home", icon: <GoHome />, functional: true, redirect: "/home" },
+  {
+    name: "Home",
+    icon: <GoHome />,
+    activeIcon: <GoHomeFill />,
+    functional: true,
+    redirect: "/home",
+  },
   { name: "Explore", icon: <IoIosSearch />, functional: false },
   { name: "Notifications", icon: <HiOutlineBell />, functional: false },
   { name: "Messages", icon: <HiOutlineEnvelope />, functional: false },
@@ -33,8 +41,9 @@ const sidebar_menu_items: Menuitem[] = [
 ];
 
 const Sidebar = () => {
+  const [active, setActive] = React.useState("Home");
   return (
-    <div className="w-full h-screen max-h-screen text-gray-200 py-2 flex flex-col gap-2 justify-between overflow-y-scroll hidescrollbar">
+    <div className="w-full h-screen max-h-screen text-gray-200 py-2 flex flex-col gap-1 overflow-y-scroll hidescrollbar">
       <div className="h-14 flex items-center justify-start px-1">
         <Link
           href="/home"
@@ -43,7 +52,7 @@ const Sidebar = () => {
           <FaXTwitter />
         </Link>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col">
         {sidebar_menu_items.map((item) => (
           <Link
             href={item.redirect || ""}
@@ -51,18 +60,27 @@ const Sidebar = () => {
             className={`flex gap-4 w-fit rounded-full p-2 px-4 py-2 text-2xl items-center justify-start hover:bg-gray-900 ${
               item.functional ? "cursor-pointer" : "cursor-not-allowed"
             }`}
+            onClick={() => setActive(item.name)}
           >
-            <span className="">{item.icon}</span>
-            <span className="text-lg tracking-wider">{item.name}</span>
+            <span className="">
+              {active === item.name ? item.activeIcon : item.icon}
+            </span>
+            <span
+              className={`text-lg font-semibold ${
+                active === item.name ? "font-extrabold" : ""
+              } tracking-wide`}
+            >
+              {item.name}
+            </span>
           </Link>
         ))}
       </div>
-      <div className="flex w-full">
-        <button className="p-3 w-full mr-4 text-lg font-bold tracking-wider bg-sky-600 hover:bg-sky-700 rounded-full">
+      <div className="flex w-full my-1">
+        <button className="p-3 w-60 mr-4 text-lg font-bold tracking-wider bg-sky-600 hover:bg-sky-700 rounded-full">
           Post
         </button>
       </div>
-      <div className="flex gap-3 px-4 py-2 items-center justify-between rounded-full mr-4 hover:bg-gray-900 cursor-pointer">
+      <div className="flex gap-3 px-4 py-2 my-1 items-center justify-between rounded-full mr-4 hover:bg-gray-900 cursor-pointer">
         <span className="text-4xl">
           <FaRegCircleUser />
         </span>
