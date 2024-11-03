@@ -85,7 +85,7 @@ const Sidebar = () => {
       </div>
       {user ? (
         <div className="flex gap-3 px-4 py-2 my-1 items-center justify-between rounded-full mr-4 bg-gray-900 cursor-pointer absolute bottom-2">
-          <span className="text-4xl">
+          {user.profileImgUrl ? (
             <Image
               src={user.profileImgUrl}
               alt="profile"
@@ -93,12 +93,16 @@ const Sidebar = () => {
               height={40}
               className="rounded-full"
             />
-          </span>
+          ) : (
+            <span className="text-4xl">
+              <FaRegCircleUser />
+            </span>
+          )}
           <div className="flex flex-col flex-1 font-bold tracking-wide text-gray-300">
             <p className="h-fit text-sm">
               {user.firstName + " " + user.lastName}
             </p>
-            <p className="h-fit text-xs">{user.firstName}</p>
+            <p className="h-fit text-xs lowercase">@{user.firstName}</p>
           </div>
           <span className="text-2xl cursor-pointer">
             <IoIosMore />
