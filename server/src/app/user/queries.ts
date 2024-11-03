@@ -1,2 +1,3 @@
 export const query = `#graphql
-verifyGoogleToken(token:String!):String`;
+verifyGoogleToken(token:String!):String
+getUserData:User`;
