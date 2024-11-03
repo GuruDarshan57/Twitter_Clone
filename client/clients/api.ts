@@ -5,10 +5,11 @@ const isClient = typeof window !== "undefined";
 export const graphqlClient = new GraphQLClient(
   "http://localhost:8000/graphql",
   {
-    headers: {
-      Authorization: isClient
-        ? `Bearer ${window.localStorage.getItem("X_token") || ""}`
-        : "",
-    },
+    headers: () => ({
+      Authorization:
+        isClient && localStorage.getItem("X_token")
+          ? `Bearer ${localStorage.getItem("X_token")}`
+          : "",
+    }),
   }
 );

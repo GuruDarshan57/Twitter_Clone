@@ -13,6 +13,8 @@ import { CgMoreO } from "react-icons/cg";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoIosMore } from "react-icons/io";
 import Link from "next/link";
+import { useGetUserDetails } from "@hooks/user";
+import Image from "next/image";
 
 interface Menuitem {
   name: string;
@@ -41,6 +43,7 @@ const sidebar_menu_items: Menuitem[] = [
 ];
 
 const Sidebar = () => {
+  const { user } = useGetUserDetails();
   const [active, setActive] = React.useState("Home");
   return (
     <div className="w-full h-screen max-h-screen text-gray-200 py-2 flex flex-col gap-1 overflow-y-scroll hidescrollbar">
@@ -80,18 +83,30 @@ const Sidebar = () => {
           Post
         </button>
       </div>
-      <div className="flex gap-3 px-4 py-2 my-1 items-center justify-between rounded-full mr-4 hover:bg-gray-900 cursor-pointer">
-        <span className="text-4xl">
-          <FaRegCircleUser />
-        </span>
-        <div className="flex flex-col flex-1 font-bold tracking-wide text-gray-300">
-          <p className="h-fit text-sm">UserName</p>
-          <p className="h-fit text-xs">user@145</p>
+      {user ? (
+        <div className="flex gap-3 px-4 py-2 my-1 items-center justify-between rounded-full mr-4 bg-gray-900 cursor-pointer absolute bottom-2">
+          <span className="text-4xl">
+            <Image
+              src={user.profileImgUrl}
+              alt="profile"
+              width={40}
+              height={40}
+              className="rounded-full"
+            />
+          </span>
+          <div className="flex flex-col flex-1 font-bold tracking-wide text-gray-300">
+            <p className="h-fit text-sm">
+              {user.firstName + " " + user.lastName}
+            </p>
+            <p className="h-fit text-xs">{user.firstName}</p>
+          </div>
+          <span className="text-2xl cursor-pointer">
+            <IoIosMore />
+          </span>
         </div>
-        <span className="text-2xl cursor-pointer">
-          <IoIosMore />
-        </span>
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

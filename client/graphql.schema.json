@@ -35,6 +35,18 @@
         "isOneOf": null,
         "fields": [
           {
+            "name": "getUserData",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "verifyGoogleToken",
             "description": null,
             "args": [
@@ -147,13 +159,17 @@
             "deprecationReason": null
           },
           {
-            "name": "profileImageURL",
+            "name": "profileImgUrl",
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
