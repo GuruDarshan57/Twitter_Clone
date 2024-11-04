@@ -2,6 +2,7 @@ import axios from "axios";
 import { prismaClient } from "../../client/db";
 import JWTservice from "../../services/JWT";
 import { GraphqlContext } from "../../interfaces";
+import { User } from "@prisma/client";
 
 const queries = {
   verifyGoogleToken: async (parent: any, { token }: { token: string }) => {
@@ -52,4 +53,11 @@ const queries = {
   },
 };
 
-export const resolvers = { queries };
+const extraResolver = {
+  User: {
+    posts: async (parent: User) =>
+      await prismaClient.post.findMany({ where: { authorId: parent.id } }),
+  },
+};
+
+export const resolvers = { queries, extraResolver };
