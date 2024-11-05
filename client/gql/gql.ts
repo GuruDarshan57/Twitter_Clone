@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
+    "\n  #graphql\n  query GetAllPosts {\n    getAllPosts {\n      id\n      content\n      imageUrl\n      author {\n        firstName\n        lastName\n        profileImgUrl\n      }\n    }\n  }\n": types.GetAllPostsDocument,
     "\n  query verifyUserGoogleTokenQuery($token: String!) {\n    verifyGoogleToken(token: $token)\n  }\n": types.VerifyUserGoogleTokenQueryDocument,
     "\n  query getUserDetails {\n    getUserData {\n      id\n      email\n      firstName\n      lastName\n      profileImgUrl\n    }\n  }\n": types.GetUserDetailsDocument,
 };
@@ -32,6 +33,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  #graphql\n  query GetAllPosts {\n    getAllPosts {\n      id\n      content\n      imageUrl\n      author {\n        firstName\n        lastName\n        profileImgUrl\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query GetAllPosts {\n    getAllPosts {\n      id\n      content\n      imageUrl\n      author {\n        firstName\n        lastName\n        profileImgUrl\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

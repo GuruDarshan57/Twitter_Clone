@@ -1,7 +1,7 @@
 "use client";
-import Tweet from "@components/Tweet";
+import Tweet from "@components/PostCard";
 import { useGetUserDetails } from "@hooks/user";
-import { FaRegCircleUser } from "react-icons/fa6";
+import { PiUserCircleThin } from "react-icons/pi";
 import { PiImage } from "react-icons/pi";
 import { HiOutlineGif } from "react-icons/hi2";
 import { HiOutlineChartBar } from "react-icons/hi2";
@@ -10,9 +10,12 @@ import { HiMiniCalendarDays } from "react-icons/hi2";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import Image from "next/image";
 import React, { useCallback } from "react";
+import { useGetAllPosts } from "@hooks/post";
+import PostCard from "@components/PostCard";
 
 const Home: React.FC = () => {
   const { user } = useGetUserDetails();
+  const { posts = [] } = useGetAllPosts();
   const handleImageInput = useCallback(() => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
@@ -48,11 +51,11 @@ const Home: React.FC = () => {
               />
             ) : (
               <span className="text-4xl">
-                <FaRegCircleUser />
+                <PiUserCircleThin />
               </span>
             )}
           </div>
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-1 flex-col px-1">
             <textarea
               rows={2}
               placeholder={"What's happening ?"}
@@ -74,10 +77,11 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-      <Tweet />
-      <Tweet />
-      <Tweet />
-      <Tweet />
+      {posts
+        ? posts.map((post: any) =>
+            post ? <PostCard key={post.id} data={post} /> : ""
+          )
+        : ""}
     </div>
   );
 };
