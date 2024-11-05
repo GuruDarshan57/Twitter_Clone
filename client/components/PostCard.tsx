@@ -9,7 +9,16 @@ import { MdBookmarkBorder } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
 
 interface PostProps {
-  data: any;
+  data: {
+    id: string;
+    content: string;
+    imageUrl?: string | null;
+    author: {
+      firstName: string;
+      lastName?: string | null;
+      profileImgUrl: string;
+    };
+  };
 }
 
 const PostCard: React.FC<PostProps> = (props) => {
