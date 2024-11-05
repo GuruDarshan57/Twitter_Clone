@@ -30,8 +30,8 @@ const PostCard: React.FC<PostProps> = (props) => {
           <Image
             className="rounded-full h-fit cursor-pointer"
             src={data.author.profileImgUrl}
-            height={37}
-            width={37}
+            height={40}
+            width={40}
             alt="Profile Photo"
           />
         ) : (
@@ -62,7 +62,7 @@ const PostCard: React.FC<PostProps> = (props) => {
         {data.imageUrl ? (
           <div className="flex w-full justify-center pr-2 py-4 cursor-pointer">
             <Image
-              className="w-fit h-72 object-contain rounded-xl"
+              className="w-fit h-48 md:h-72 object-contain rounded-xl"
               src={data.imageUrl}
               alt="Post Image"
               height={600}
@@ -74,32 +74,32 @@ const PostCard: React.FC<PostProps> = (props) => {
         )}
 
         <div className="flex justify-between text-xl text-gray-500">
-          <div className="flex flex-1 justify-between relative -left-2">
+          <div className="flex flex-1 justify-between relative ">
             <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer">
               <IoChatbubbleOutline />
               <span className="text-sm place-content-center">201</span>
             </span>
-            <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-green-700 p-1 px-2 rounded-full cursor-pointer">
+            {/* <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-green-700 p-1 px-2 rounded-full cursor-pointer">
               <LuRepeat2 />
               <span className="text-sm">19</span>
-            </span>
+            </span> */}
             <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-red-700 p-1 px-2 rounded-full cursor-pointer">
               <IoMdHeartEmpty />
               <span className="text-sm">256</span>
             </span>
-            <span className="flex gap-2 items-center text-lg hover:bg-gray-900 p-1 hover:text-blue-500 px-2 rounded-full cursor-pointer">
+            {/* <span className="flex gap-2 items-center text-lg hover:bg-gray-900 p-1 hover:text-blue-500 px-2 rounded-full cursor-pointer">
               <BiSolidBarChartAlt2 />
               <span className="text-sm">19k</span>
-            </span>
+            </span> */}
             <span className="flex text-lg">
               <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer">
                 <MdBookmarkBorder />
               </span>
             </span>
+            <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer text-lg">
+              <RiShare2Fill />
+            </span>
           </div>
-          <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer text-lg">
-            <RiShare2Fill />
-          </span>
         </div>
       </div>
     </div>

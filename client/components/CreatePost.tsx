@@ -17,7 +17,11 @@ const CreatePost = () => {
   const { mutate } = useCreatePost();
 
   const handleCreatePost = useCallback(() => {
+    if (content.length < 2) return toast.error("Please enter some text");
+    if (content.length > 280)
+      return toast.error("Please enter less than 280 characters");
     mutate({ content: content });
+    setContent("");
   }, [mutate, content]);
 
   const handleImageInput = useCallback(() => {
@@ -28,7 +32,7 @@ const CreatePost = () => {
   }, []);
   return (
     <div className="w-full border-slate-700 border-b-[0.5px] cursor-pointer">
-      <div className="flex p-4 pb-0 gap-3">
+      <div className="flex p-2 pb-0 gap-3">
         <div className="">
           {user && user.profileImgUrl ? (
             <Image

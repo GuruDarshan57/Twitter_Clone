@@ -41,7 +41,7 @@ const RightBar = () => {
               <GoogleLogin
                 text={"signup_with"}
                 shape="pill"
-                width={300}
+                width={800}
                 logo_alignment="center"
                 onSuccess={handleLoginWithGoogle}
                 onError={() => {

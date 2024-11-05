@@ -23,7 +23,7 @@ export const useCreatePost = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["all-posts"] });
-      toast.loading("Creating post...", { id: "create-post" });
+      toast.success("Post Created", { id: "create-post" });
     },
   });
   return mutation;

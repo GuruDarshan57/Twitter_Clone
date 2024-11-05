@@ -11,6 +11,9 @@ const config: Config = {
       fontFamily: {
         opensans: ["Open Sans", "sans-serif"],
       },
+      screens: {
+        mobile: "470px",
+      },
     },
   },
   plugins: [],
