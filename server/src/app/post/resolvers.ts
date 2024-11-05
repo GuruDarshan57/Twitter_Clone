@@ -28,9 +28,7 @@ const mutations = {
 const queries = {
   getAllPosts: async (parent: any, args: any, contextValue: GraphqlContext) => {
     if (!contextValue.user) throw new Error("You are not Authenticated");
-    const posts = await prismaClient.post.findMany({
-      where: { authorId: contextValue.user.id },
-    });
+    const posts = await prismaClient.post.findMany();
     return posts;
   },
 };
