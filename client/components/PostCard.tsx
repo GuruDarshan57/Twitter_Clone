@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { IoIosMore } from "react-icons/io";
@@ -7,6 +8,8 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { MdBookmarkBorder } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface PostProps {
   data: {
@@ -23,6 +26,7 @@ interface PostProps {
 
 const PostCard: React.FC<PostProps> = (props) => {
   const { data } = props;
+  const router = useRouter();
   return (
     <div className="w-full flex gap-4 p-2 pr-4 border-b-2 border-gray-800 text-gray-200 tracking-wide hover:bg-gray-950">
       <div className="w-fit flex justify-center items-start">
@@ -41,7 +45,12 @@ const PostCard: React.FC<PostProps> = (props) => {
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className="text-base font-bold cursor-pointer hover:underline">
+            <span
+              className="text-base font-bold cursor-pointer hover:underline"
+              onClick={() => {
+                router.push(`/user/${data.id}`);
+              }}
+            >
               {data.author.firstName + " " + (data.author.lastName || "")}
             </span>
             <span className="text-sm text-gray-300 cursor-pointer">

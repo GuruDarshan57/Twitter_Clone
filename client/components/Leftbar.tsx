@@ -8,7 +8,8 @@ import { HiOutlineBell } from "react-icons/hi2";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import { TbAlignBoxLeftStretch } from "react-icons/tb";
 import { BsPeople } from "react-icons/bs";
-import { FiUser } from "react-icons/fi";
+import { HiOutlineUser } from "react-icons/hi2";
+import { HiUser } from "react-icons/hi2";
 import { CgMoreO } from "react-icons/cg";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoIosMore } from "react-icons/io";
@@ -24,27 +25,33 @@ interface Menuitem {
   redirect?: string;
 }
 
-const sidebar_menu_items: Menuitem[] = [
-  {
-    name: "Home",
-    icon: <GoHome />,
-    activeIcon: <GoHomeFill />,
-    functional: true,
-    redirect: "/home",
-  },
-  { name: "Explore", icon: <IoIosSearch />, functional: false },
-  { name: "Notifications", icon: <HiOutlineBell />, functional: false },
-  { name: "Messages", icon: <HiOutlineEnvelope />, functional: false },
-  { name: "Grok", icon: <TbAlignBoxLeftStretch />, functional: false },
-  { name: "Communities", icon: <BsPeople />, functional: false },
-  { name: "Premium", icon: <FaXTwitter />, functional: false },
-  { name: "Profile", icon: <FiUser />, functional: true, redirect: "/profile" },
-  { name: "More", icon: <CgMoreO />, functional: true },
-];
-
 const Sidebar = () => {
   const { user } = useGetUserDetails();
   const [active, setActive] = React.useState("Home");
+
+  const sidebar_menu_items: Menuitem[] = [
+    {
+      name: "Home",
+      icon: <GoHome />,
+      activeIcon: <GoHomeFill />,
+      functional: true,
+      redirect: "/home",
+    },
+    { name: "Explore", icon: <IoIosSearch />, functional: false },
+    { name: "Notifications", icon: <HiOutlineBell />, functional: false },
+    { name: "Messages", icon: <HiOutlineEnvelope />, functional: false },
+    { name: "Grok", icon: <TbAlignBoxLeftStretch />, functional: false },
+    { name: "Communities", icon: <BsPeople />, functional: false },
+    { name: "Premium", icon: <FaXTwitter />, functional: false },
+    {
+      name: "Profile",
+      icon: <HiOutlineUser />,
+      activeIcon: <HiUser />,
+      functional: user ? true : false,
+      redirect: `/user/${user ? user.id : ""}`,
+    },
+    { name: "More", icon: <CgMoreO />, functional: true },
+  ];
   return (
     <div className="w-full h-screen max-h-screen text-gray-200 py-2 flex flex-col gap-1 overflow-y-scroll hidescrollbar">
       <div className="h-14 flex items-center justify-center sm:justify-end lg:justify-start sm:pr-4 lg:px-2">
@@ -63,14 +70,18 @@ const Sidebar = () => {
             className={`flex gap-4 w-fit rounded-full p-2 lg:px-4 text-2xl items-center justify-start hover:bg-gray-900 ${
               item.functional ? "cursor-pointer" : "cursor-not-allowed"
             }`}
-            onClick={() => setActive(item.name)}
+            onClick={() => {
+              item.activeIcon ? setActive(item.name) : "";
+            }}
           >
             <span className="text-3xl lg:text-2xl">
-              {active === item.name ? item.activeIcon : item.icon}
+              {active === item.name && item.activeIcon
+                ? item.activeIcon
+                : item.icon}
             </span>
             <span
-              className={`text-lg font-semibold ${
-                active === item.name ? "font-extrabold" : ""
+              className={`text-lg text-slate-300 font-semibold ${
+                active === item.name ? "font-extrabold text-white" : ""
               } tracking-wide hidden lg:inline`}
             >
               {item.name}
