@@ -41,7 +41,11 @@ const queries = {
       return null;
     }
   },
-  getUserData: async (parent: any, args: any, contextValue: GraphqlContext) => {
+  getCurrentUserData: async (
+    parent: any,
+    args: any,
+    contextValue: GraphqlContext
+  ) => {
     const email = contextValue.user?.email;
     if (email) {
       const user = await prismaClient.user.findUnique({
@@ -50,6 +54,15 @@ const queries = {
       return user;
     }
     return null;
+  },
+  getUserData: async (
+    parent: any,
+    { id }: { id: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    const user = await prismaClient.user.findUnique({ where: { id } });
+    return user;
   },
 };
 

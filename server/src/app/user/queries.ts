@@ -1,3 +1,4 @@
 export const queries = `#graphql
 verifyGoogleToken(token:String!):String
-getUserData:User`;
+getCurrentUserData:User
+getUserData(id:String!):User`;
