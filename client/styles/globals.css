@@ -19,7 +19,7 @@ body{
 }
 
 .glass_bg{
-    background-color: rgba(0, 0, 0, 0.439);
+    background-color: rgba(0, 0, 0, 0.823);
     backdrop-filter: blur(4px);
 }
 

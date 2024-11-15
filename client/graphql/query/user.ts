@@ -6,14 +6,31 @@ export const verifyUserGoogleTokenQuery = graphql(`
   }
 `);
 
-export const getUserDetails = graphql(`
-  query getUserDetails {
-    getUserData {
+export const getCurrentUserDataQuery = graphql(`
+  query getCurrentUserData {
+    getCurrentUserData {
       id
       email
       firstName
       lastName
       profileImgUrl
+    }
+  }
+`);
+
+export const getUserDataQuery = graphql(`
+  #graphql
+  query getUserData($getUserDataId: String!) {
+    getUserData(id: $getUserDataId) {
+      id
+      firstName
+      lastName
+      profileImgUrl
+      posts {
+        id
+        content
+        imageUrl
+      }
     }
   }
 `);

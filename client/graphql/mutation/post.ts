@@ -1,6 +1,6 @@
 import { graphql } from "@gql";
 
-export const createPost = graphql(`
+export const createPostMutation = graphql(`
   #graphql
   mutation CreatePost($payload: PostData!) {
     createPost(payload: $payload) {

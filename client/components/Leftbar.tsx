@@ -14,7 +14,7 @@ import { CgMoreO } from "react-icons/cg";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoIosMore } from "react-icons/io";
 import Link from "next/link";
-import { useGetUserDetails } from "@hooks/user";
+import { useGetCurrentUserDetails } from "@hooks/user";
 import Image from "next/image";
 
 interface Menuitem {
@@ -26,7 +26,7 @@ interface Menuitem {
 }
 
 const Sidebar = () => {
-  const { user } = useGetUserDetails();
+  const { user } = useGetCurrentUserDetails();
   const [active, setActive] = React.useState("Home");
 
   const sidebar_menu_items: Menuitem[] = [
@@ -112,9 +112,9 @@ const Sidebar = () => {
               <Image
                 src={user.profileImgUrl}
                 alt="profile"
-                width={40}
-                height={40}
-                className="rounded-full"
+                width={100}
+                height={100}
+                className="w-10 h-10 object-contain rounded-full"
               />
             ) : (
               <span className="text-4xl">
@@ -127,7 +127,7 @@ const Sidebar = () => {
               </p>
               <p className="h-fit text-xs lowercase">@{user.firstName}</p>
             </div>
-            <span className="text-2xl cursor-pointer">
+            <span className="text-2xl cursor-pointer relative right-2">
               <IoIosMore />
             </span>
           </div>

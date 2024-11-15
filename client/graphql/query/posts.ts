@@ -1,6 +1,6 @@
 import { graphql } from "../../gql";
 
-export const GetAllPosts = graphql(`
+export const GetAllPostsQuery = graphql(`
   #graphql
   query GetAllPosts {
     getAllPosts {
@@ -8,6 +8,8 @@ export const GetAllPosts = graphql(`
       content
       imageUrl
       author {
+        id
+        email
         firstName
         lastName
         profileImgUrl

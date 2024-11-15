@@ -17,6 +17,7 @@ interface PostProps {
     content: string;
     imageUrl?: string | null;
     author: {
+      id: string;
       firstName: string;
       lastName?: string | null;
       profileImgUrl: string;
@@ -32,10 +33,10 @@ const PostCard: React.FC<PostProps> = (props) => {
       <div className="w-fit flex justify-center items-start">
         {data.author.profileImgUrl ? (
           <Image
-            className="rounded-full h-fit cursor-pointer"
+            className="w-10 h-10 object-contain rounded-full cursor-pointer"
             src={data.author.profileImgUrl}
-            height={40}
-            width={40}
+            height={100}
+            width={100}
             alt="Profile Photo"
           />
         ) : (
@@ -48,10 +49,13 @@ const PostCard: React.FC<PostProps> = (props) => {
             <span
               className="text-base font-bold cursor-pointer hover:underline"
               onClick={() => {
-                router.push(`/user/${data.id}`);
+                router.push(`/user/${data.author.id}`);
               }}
             >
-              {data.author.firstName + " " + (data.author.lastName || "")}
+              {data.author.firstName.slice(0, 1).toUpperCase() +
+                data.author.firstName.slice(1) +
+                " " +
+                (data.author.lastName || "")}
             </span>
             <span className="text-sm text-gray-300 cursor-pointer">
               @{data.author.firstName} .{" "}
@@ -88,18 +92,10 @@ const PostCard: React.FC<PostProps> = (props) => {
               <IoChatbubbleOutline />
               <span className="text-sm place-content-center">201</span>
             </span>
-            {/* <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-green-700 p-1 px-2 rounded-full cursor-pointer">
-              <LuRepeat2 />
-              <span className="text-sm">19</span>
-            </span> */}
             <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-red-700 p-1 px-2 rounded-full cursor-pointer">
               <IoMdHeartEmpty />
               <span className="text-sm">256</span>
             </span>
-            {/* <span className="flex gap-2 items-center text-lg hover:bg-gray-900 p-1 hover:text-blue-500 px-2 rounded-full cursor-pointer">
-              <BiSolidBarChartAlt2 />
-              <span className="text-sm">19k</span>
-            </span> */}
             <span className="flex text-lg">
               <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer">
                 <MdBookmarkBorder />

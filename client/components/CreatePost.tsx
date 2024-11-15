@@ -6,13 +6,13 @@ import { HiOutlineChartBar } from "react-icons/hi2";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import { HiMiniCalendarDays } from "react-icons/hi2";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { useGetUserDetails } from "@hooks/user";
+import { useGetCurrentUserDetails } from "@hooks/user";
 import Image from "next/image";
 import { useCreatePost } from "@hooks/post";
 import toast from "react-hot-toast";
 
 const CreatePost = () => {
-  const { user } = useGetUserDetails();
+  const { user } = useGetCurrentUserDetails();
   const [content, setContent] = useState("");
   const { mutate } = useCreatePost();
 
@@ -38,9 +38,9 @@ const CreatePost = () => {
             <Image
               src={user.profileImgUrl}
               alt="profile"
-              width={40}
-              height={40}
-              className="rounded-full"
+              width={100}
+              height={100}
+              className="w-10 h-10 object-contain rounded-full"
             />
           ) : (
             <span className="text-4xl">

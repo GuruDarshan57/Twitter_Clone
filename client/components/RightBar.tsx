@@ -5,11 +5,11 @@ import { FaApple } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { graphqlClient } from "@clients/api";
 import { verifyUserGoogleTokenQuery } from "@graphql/query/user";
-import { useGetUserDetails } from "@hooks/user";
+import { useGetCurrentUserDetails } from "@hooks/user";
 import { useQueryClient } from "@tanstack/react-query";
 
 const RightBar = () => {
-  const { user } = useGetUserDetails();
+  const { user } = useGetCurrentUserDetails();
   const queryClient = useQueryClient();
   const handleLoginWithGoogle = useCallback(
     async (cred: CredentialResponse) => {
@@ -19,10 +19,13 @@ const RightBar = () => {
         verifyUserGoogleTokenQuery,
         { token: googleToken }
       );
-      toast.success("Login Successful");
-      if (verifyGoogleToken)
+
+      if (verifyGoogleToken) {
         window.localStorage.setItem("X_token", verifyGoogleToken);
-      await queryClient.invalidateQueries({ queryKey: ["user-data"] });
+        toast.success("Login Successful");
+        await queryClient.invalidateQueries({ queryKey: ["user-data"] });
+        await queryClient.invalidateQueries({ queryKey: ["all-posts"] });
+      }
     },
     [queryClient]
   );
