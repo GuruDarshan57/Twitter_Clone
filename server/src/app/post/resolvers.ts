@@ -1,11 +1,21 @@
 import { Post } from "@prisma/client";
 import { prismaClient } from "../../client/db";
 import { GraphqlContext } from "../../interfaces";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+require("dotenv").config();
 
 interface postData {
   content: string;
   imageUrl?: string;
 }
+
+const s3Client = new S3Client({
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+  },
+});
 
 const mutations = {
   createPost: async (
@@ -32,6 +42,27 @@ const queries = {
       orderBy: { createdAt: "desc" },
     });
     return posts;
+  },
+  getSignedURL: async (
+    parent: any,
+    { imageName, imageType }: { imageName: string; imageType: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    const allowedFileTypes = ["jpg", "jpeg", "webp", "png"];
+    if (!allowedFileTypes.includes(imageType))
+      throw new Error("File type not supported");
+
+    const putObject = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET,
+      Key: `uploads/${contextValue.user.id}/posts/${
+        Date.now() + imageName
+      }.${imageType}`,
+    });
+
+    const signedURL = getSignedUrl(s3Client, putObject, { expiresIn: 3600 });
+
+    return signedURL;
   },
 };
 
