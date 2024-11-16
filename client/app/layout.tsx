@@ -47,7 +47,7 @@ export default function RootLayout({
                   <RightBar />
                 </div>
               </div>
-              <ReactQueryDevtools />
+              {/* <ReactQueryDevtools /> */}
             </GoogleOAuthProvider>
           </QueryClientProvider>
         </div>

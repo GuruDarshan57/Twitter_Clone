@@ -45,7 +45,9 @@ const page = ({ params }: Props) => {
                 profile_data.firstName.slice(1)
               : ""}
           </span>
-          <span className="text-sm text-gray-500">2 posts</span>
+          <span className="text-sm text-gray-500">
+            {profile_data?.posts?.length} posts
+          </span>
         </div>
       </div>
       <div className="w-full flex flex-col relative pb-2">
@@ -122,17 +124,7 @@ const page = ({ params }: Props) => {
             <div className="h-1 w-full bg-sky-500 rounded-full relative -bottom-3"></div>
           </button>
         </div>
-        <div
-          className="flex-1 flex justify-center items-center hover:bg-gray-950"
-          onClick={() => {
-            setActive("Posts & Replies");
-          }}
-        >
-          <button className="p-2 pb-3 pt-5  text-sm tracking-wide text-slate-500 self-end">
-            Posts & Replies
-            <div className="h-1 w-full bg-sky-500 rounded-full relative -bottom-3 invisible"></div>
-          </button>
-        </div>
+
         <div
           className="flex-1 flex justify-center items-center hover:bg-gray-950"
           onClick={() => {

@@ -1,23 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
+import { GoHome } from "react-icons/go";
 import { MdHomeFilled } from "react-icons/md";
 import { HiOutlineBell } from "react-icons/hi2";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import { HiOutlineUser } from "react-icons/hi2";
+import { HiUser } from "react-icons/hi2";
+import Link from "next/link";
+import { useGetCurrentUserDetails } from "@hooks/user";
+
+interface MenuItem {
+  name: string;
+  icon: React.ReactNode;
+  activeIcon?: React.ReactNode;
+  functional: boolean;
+  redirect?: string;
+}
+
 const MobileNavbar = () => {
+  const { user } = useGetCurrentUserDetails();
+  const [active, setActive] = useState("Home");
+
+  const MenuItems: MenuItem[] = [
+    {
+      name: "Home",
+      icon: <GoHome />,
+      activeIcon: <MdHomeFilled />,
+      functional: true,
+      redirect: "/",
+    },
+    {
+      name: "Notifications",
+      icon: <HiOutlineBell />,
+      functional: false,
+    },
+    {
+      name: "Messages",
+      icon: <HiOutlineEnvelope />,
+      functional: false,
+    },
+    {
+      name: "Profile",
+      icon: <HiOutlineUser />,
+      activeIcon: <HiUser />,
+      functional: true,
+      redirect: `/user/${user?.id}`,
+    },
+  ];
   return (
     <div className="w-full flex justify-between p-2 px-5 bg-black text-3xl border-t-[0.7px] border-slate-600">
-      <span className="p-1">
-        <MdHomeFilled />
-      </span>
-      <span className="p-1">
-        <HiOutlineBell />
-      </span>
-      <span className="p-1">
-        <HiOutlineEnvelope />
-      </span>
-      <span className="p-1 ">
-        <HiOutlineUser />
-      </span>
+      {MenuItems.map((item) => (
+        <span className="p-1">
+          <Link
+            href={item.redirect ? item.redirect : ""}
+            onClick={() => setActive(item.name)}
+            className={`${
+              item.functional ? "cursor-pointer" : "cursor-not-allowed"
+            }`}
+          >
+            {active === item.name ? item.activeIcon : item.icon}
+          </Link>
+        </span>
+      ))}
       <button className="p-4 bg-sky-600 hover:bg-sky-700 rounded-full mobile:hidden absolute right-2 -top-16">
         <svg
           className="fill-current block h-6 w-6 xl:hidden"
