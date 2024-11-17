@@ -17,6 +17,11 @@ const nextConfig = {
                 hostname: 'images.pexels.com',
                 port: '',
                 pathname: '/**',
+            }, {
+                protocol: 'https',
+                hostname: 'x-clone-dev.s3.ap-south-1.amazonaws.com',
+                port: '',
+                pathname: '/**',
             }]
     },
     eslint: {

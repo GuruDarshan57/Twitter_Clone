@@ -17,3 +17,10 @@ export const GetAllPostsQuery = graphql(`
     }
   }
 `);
+
+export const GetSignedURLQuery = graphql(`
+  #graphql
+  query Query($imageName: String!, $imageType: String!) {
+    getSignedURL(imageName: $imageName, imageType: $imageType)
+  }
+`);

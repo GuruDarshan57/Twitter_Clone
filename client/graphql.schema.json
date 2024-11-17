@@ -222,7 +222,7 @@
             "description": null,
             "args": [
               {
-                "name": "name",
+                "name": "imageName",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -238,7 +238,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "type",
+                "name": "imageType",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",

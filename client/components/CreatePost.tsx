@@ -10,25 +10,59 @@ import { useGetCurrentUserDetails } from "@hooks/user";
 import Image from "next/image";
 import { useCreatePost } from "@hooks/post";
 import toast from "react-hot-toast";
+import { graphqlClient } from "@clients/api";
+import { GetSignedURLQuery } from "@graphql/query/posts";
+import axios from "axios";
 
 const CreatePost = () => {
   const { user } = useGetCurrentUserDetails();
   const [content, setContent] = useState("");
   const { mutate } = useCreatePost();
+  const [imagePath, setImagePath] = useState("");
 
   const handleCreatePost = useCallback(() => {
     if (content.length < 2) return toast.error("Please enter some text");
     if (content.length > 280)
       return toast.error("Please enter less than 280 characters");
-    mutate({ content: content });
+    mutate({ content: content, imageUrl: imagePath });
     setContent("");
+    setImagePath("");
   }, [mutate, content]);
+
+  const handleImageInputChange = useCallback((input: HTMLInputElement) => {
+    return async (event: Event) => {
+      event.preventDefault();
+      const file: File | null | undefined = input.files?.item(0);
+
+      if (file) {
+        toast.loading("Uploading Image", { id: "uploadImage" });
+
+        const imageName = file.name;
+        const imageType = file.type.split("/")[1];
+        console.log(imageType);
+        const { getSignedURL } = await graphqlClient.request(
+          GetSignedURLQuery,
+          { imageName, imageType }
+        );
+        await axios.put(getSignedURL || "", file, {
+          headers: { "Content-Type": imageType },
+        });
+        const UploadURL = new URL(getSignedURL || "");
+        const imageURL = UploadURL.origin + UploadURL.pathname;
+        setImagePath(imageURL);
+        toast.success("Uplaoaded ✅", { id: "uploadImage" });
+      }
+    };
+  }, []);
 
   const handleImageInput = useCallback(() => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
     input.click();
+    const handleChange = handleImageInputChange(input);
+
+    input.addEventListener("change", handleChange);
   }, []);
   return (
     <div className="w-full border-slate-700 border-b-[0.5px] cursor-pointer">
@@ -58,6 +92,19 @@ const CreatePost = () => {
             placeholder={"What's happening ?"}
             className="bg-black tracking-wide p-1 border-slate-700 border-b-[0.5px] outline-none"
           ></textarea>
+          {imagePath ? (
+            <div className="flex w-full justify-center pr-2 py-4 cursor-pointer">
+              <Image
+                className="w-fit h-48 md:h-72 object-contain rounded-xl"
+                src={imagePath}
+                alt="Post Image"
+                height={600}
+                width={400}
+              />
+            </div>
+          ) : (
+            ""
+          )}
           <div className="w-full flex justify-between items-center p-1 py-2 pb-3">
             <div className="text-sky-400 text-xl flex gap-4">
               <PiImage onClick={handleImageInput} />
