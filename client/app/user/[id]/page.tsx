@@ -28,7 +28,7 @@ const page = ({ params }: Props) => {
       : queryClient.invalidateQueries({ queryKey: ["profile-data"] });
   }, []);
   return (
-    <div className="w-full flex flex-col max-h-screen overflow-y-scroll hidescrollbar">
+    <div className="w-full flex flex-col h-full max-h-full overflow-y-scroll hidescrollbar">
       <div className="flex w-full p-2 py-1 pl-4 justify-start items-center gap-6 glass_bg border-b-[0.5px] border-slate-700">
         <span
           className="text-xl cursor-pointer rounded-full p-2 hover:bg-gray-900"

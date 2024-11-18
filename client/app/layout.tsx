@@ -37,9 +37,9 @@ export default function RootLayout({
                 <div className="h-full hidden mobile:inline mobile:col-span-2">
                   <Sidebar />
                 </div>
-                <div className="col-span-10 mobile:col-span-8 sm:col-span-7 lg:col-span-5 w-full h-screen max-h-screen border-slate-700 border-r-[0.5px] border-l-[0.5px]  overflow-y-scroll hidescrollbar">
+                <div className="flex flex-col col-span-10 mobile:col-span-8 sm:col-span-7 lg:col-span-5 w-full h-screen max-h-screen overflow-y-scroll hidescrollbar border-slate-700 border-r-[0.5px] border-l-[0.5px] relative">
                   {children}
-                  <div className="mobile:hidden w-full sticky bottom-0">
+                  <div className="mobile:hidden w-full">
                     <MobileNavbar />
                   </div>
                 </div>

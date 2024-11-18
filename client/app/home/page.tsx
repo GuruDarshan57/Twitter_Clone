@@ -1,28 +1,41 @@
 "use client";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useGetAllPosts } from "@hooks/post";
 import PostCard from "@components/PostCard";
 import HomeTopBar from "@components/HomeTopBar";
 import CreatePost from "@components/CreatePost";
+import Loader from "@components/Loader";
 
 const Home: React.FC = () => {
+  const [loader, setLoader] = useState(true);
   const { posts = [] } = useGetAllPosts();
 
+  useEffect(() => {
+    setLoader(posts ? false : true);
+  });
   return (
-    <div className="w-full flex flex-col">
+    <>
       <HomeTopBar />
-      <CreatePost />
-      {posts
-        ? posts.map((post: any) =>
+      <div className="w-full h-full max-h-full overflow-y-scroll hidescrollbar flex flex-col">
+        <CreatePost />
+        {posts ? (
+          posts.map((post: any) =>
             post ? <PostCard key={post.id} data={post} /> : ""
           )
-        : ""}
-      {sample_data
-        ? sample_data.map((post: any) =>
-            post ? <PostCard key={post.id} data={post} /> : ""
-          )
-        : ""}
-    </div>
+        ) : (
+          <div className="w-full h-full flex justify-center items-center">
+            No Posts
+          </div>
+        )}
+
+        {loader ? <Loader /> : ""}
+        {/* {sample_data
+          ? sample_data.map((post: any) =>
+              post ? <PostCard key={post.id} data={post} /> : ""
+            )
+          : ""} */}
+      </div>
+    </>
   );
 };
 

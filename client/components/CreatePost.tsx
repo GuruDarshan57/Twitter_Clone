@@ -39,7 +39,6 @@ const CreatePost = () => {
 
         const imageName = file.name;
         const imageType = file.type.split("/")[1];
-        console.log(imageType);
         const { getSignedURL } = await graphqlClient.request(
           GetSignedURLQuery,
           { imageName, imageType }
@@ -95,11 +94,13 @@ const CreatePost = () => {
           {imagePath ? (
             <div className="flex w-full justify-center pr-2 py-4 cursor-pointer">
               <Image
-                className="w-fit h-48 md:h-72 object-contain rounded-xl"
+                className="w-fit h-48 md:h-72 object-contain rounded-xl border-[0.5px] border-slate-600"
                 src={imagePath}
                 alt="Post Image"
                 height={600}
                 width={400}
+                placeholder="blur"
+                blurDataURL="iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkOAgAAMcAw7Dm+8MAAAAASUVORK5CYII="
               />
             </div>
           ) : (

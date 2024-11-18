@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { IoIosMore } from "react-icons/io";
 import { IoChatbubbleOutline } from "react-icons/io5";
@@ -8,8 +8,10 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { MdBookmarkBorder } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
-import toast from "react-hot-toast";
+import { MdCancel } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import Loader from "./Loader";
+import Link from "next/link";
 
 interface PostProps {
   data: {
@@ -26,19 +28,26 @@ interface PostProps {
 }
 
 const PostCard: React.FC<PostProps> = (props) => {
+  const [loader, setLoader] = useState(false);
   const { data } = props;
   const router = useRouter();
+  const [pre, setPre] = useState(false);
   return (
     <div className="w-full flex gap-4 p-2 pr-4 border-b-2 border-gray-800 text-gray-200 tracking-wide hover:bg-gray-950">
       <div className="w-fit flex justify-center items-start">
         {data.author.profileImgUrl ? (
-          <Image
-            className="w-10 h-10 object-contain rounded-full cursor-pointer"
-            src={data.author.profileImgUrl}
-            height={100}
-            width={100}
-            alt="Profile Photo"
-          />
+          loader ? (
+            <Loader />
+          ) : (
+            <Image
+              className="w-10 h-10 object-contain rounded-full cursor-pointer"
+              src={data.author.profileImgUrl}
+              height={100}
+              width={100}
+              alt="Profile Photo"
+              placeholder="empty"
+            />
+          )
         ) : (
           ""
         )}
@@ -75,12 +84,50 @@ const PostCard: React.FC<PostProps> = (props) => {
         {data.imageUrl ? (
           <div className="flex w-full justify-center pr-2 py-4 cursor-pointer">
             <Image
-              className="w-fit h-48 md:h-72 object-contain rounded-xl"
+              className="w-fit h-48 md:h-72 object-contain rounded-xl border-[0.5px] border-slate-600"
               src={data.imageUrl}
               alt="Post Image"
               height={600}
               width={400}
+              onClick={() => {
+                setPre(true);
+              }}
             />
+            {pre ? (
+              <div className="h-full w-full flex flex-col justify-center items-center bg-black absolute top-0 left-0 z-10 glass_bg">
+                <span
+                  className="w-full flex relative"
+                  onClick={() => {
+                    setPre(false);
+                  }}
+                >
+                  <MdCancel className="absolute right-5 bottom-2" />
+                </span>
+                <div className="w-full flex justify-center ">
+                  <Image
+                    className="w-fit h-56 md:h-80 object-contain rounded-xl border-[0.5px] border-slate-600"
+                    src={data.imageUrl}
+                    alt="Post Image"
+                    height={600}
+                    width={400}
+                    onClick={() => {
+                      setPre(true);
+                    }}
+                  />
+                </div>
+                <div className="w-full mt-5 flex justify-center ">
+                  <Link
+                    className="p-1 px-2 rounded-lg border-2 tracking-wide hover:bg-white hover:text-black"
+                    href={data.imageUrl}
+                    target="_blank"
+                  >
+                    Open Original
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           ""
