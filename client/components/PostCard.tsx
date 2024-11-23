@@ -12,6 +12,8 @@ import { MdCancel } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
+import { useGetCurrentUserDetails } from "@hooks/user";
 
 interface PostProps {
   data: {
@@ -29,6 +31,8 @@ interface PostProps {
 
 const PostCard: React.FC<PostProps> = (props) => {
   const [loader, setLoader] = useState(false);
+  const { user } = useGetCurrentUserDetails();
+  const queryClient = useQueryClient();
   const { data } = props;
   const router = useRouter();
   const [pre, setPre] = useState(false);
@@ -58,6 +62,11 @@ const PostCard: React.FC<PostProps> = (props) => {
             <span
               className="text-base font-bold cursor-pointer hover:underline"
               onClick={() => {
+                user?.id === data.author.id
+                  ? ""
+                  : queryClient.invalidateQueries({
+                      queryKey: ["profile-data"],
+                    });
                 router.push(`/user/${data.author.id}`);
               }}
             >
@@ -117,7 +126,7 @@ const PostCard: React.FC<PostProps> = (props) => {
                 </div>
                 <div className="w-full mt-5 flex justify-center ">
                   <Link
-                    className="p-1 px-2 rounded-lg border-2 tracking-wide hover:bg-white hover:text-black"
+                    className="p-1 px-2 rounded-lg border-2 tracking-wide hover:border-green-400"
                     href={data.imageUrl}
                     target="_blank"
                   >
