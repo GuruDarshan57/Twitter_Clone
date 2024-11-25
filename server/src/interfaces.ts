@@ -5,3 +5,7 @@ export interface JWTPayload {
 export interface GraphqlContext {
   user?: JWTPayload;
 }
+export interface postData {
+  content: string;
+  imageUrl?: string;
+}

@@ -1,14 +1,10 @@
 import { Post } from "@prisma/client";
 import { prismaClient } from "../../client/db";
-import { GraphqlContext } from "../../interfaces";
+import { GraphqlContext, postData } from "../../interfaces";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import PostsService from "../../services/posts";
 require("dotenv").config();
-
-interface postData {
-  content: string;
-  imageUrl?: string;
-}
 
 const s3Client = new S3Client({
   credentials: {
@@ -24,24 +20,14 @@ const mutations = {
     contextValue: GraphqlContext
   ) => {
     if (!contextValue.user) throw new Error("You are not Authenticated");
-    const post = await prismaClient.post.create({
-      data: {
-        content: payload.content,
-        imageUrl: payload.imageUrl,
-        author: { connect: { id: contextValue.user.id } },
-      },
-    });
-    return post;
+    return PostsService.createPost(payload, contextValue.user.id);
   },
 };
 
 const queries = {
   getAllPosts: async (parent: any, args: any, contextValue: GraphqlContext) => {
     if (!contextValue.user) throw new Error("You are not Authenticated");
-    const posts = await prismaClient.post.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-    return posts;
+    return PostsService.getAllPosts();
   },
   getSignedURL: async (
     parent: any,

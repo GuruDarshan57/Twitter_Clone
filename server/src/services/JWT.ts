@@ -1,7 +1,8 @@
 import { User } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import { JWTPayload } from "../interfaces";
-const secret = "guru@123";
+const secret = process.env.JWT_SECRET || "secret";
+
 class JWTservice {
   public static createToken(user: User): string {
     const payload: JWTPayload = {
