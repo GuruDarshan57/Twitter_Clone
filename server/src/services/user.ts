@@ -31,9 +31,31 @@ class UserService {
 
   //to get logged in user
   public static async getCurrentUserData(userEmail: string) {
-    return userEmail
-      ? await prismaClient.user.findUnique({ where: { email: userEmail } })
-      : null;
+    return await prismaClient.user.findUnique({ where: { email: userEmail } });
+  }
+
+  //follow user
+  public static async followUser(from: string, to: string) {
+    await prismaClient.follows.create({
+      data: {
+        follower: { connect: { id: from } },
+        following: { connect: { id: to } },
+      },
+    });
+    return true;
+  }
+
+  //unfollow user
+  public static async unFollowUser(from: string, to: string) {
+    await prismaClient.follows.delete({
+      where: {
+        followerId_followingId: {
+          followerId: from,
+          followingId: to,
+        },
+      },
+    });
+    return true;
   }
 }
 

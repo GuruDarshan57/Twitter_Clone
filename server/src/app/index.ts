@@ -7,6 +7,7 @@ import { User } from "./user/index";
 import { Post } from "./post/index";
 import cors from "cors";
 import JWTservice from "../services/JWT";
+import { introspectionTypes } from "graphql";
 
 export default async function initilizeServer() {
   const app = express();
@@ -14,6 +15,7 @@ export default async function initilizeServer() {
   app.use(cors());
 
   const graphqlServer = new ApolloServer<GraphqlContext>({
+    introspection: process.env.NODE_Env !== "Production",
     typeDefs: `#graphql
     ${User.types}
     ${Post.types}
@@ -23,6 +25,7 @@ export default async function initilizeServer() {
     }
     type Mutation{
       ${Post.mutations}
+      ${User.mutations}
     }`,
     resolvers: {
       Query: {
@@ -31,6 +34,7 @@ export default async function initilizeServer() {
       },
       Mutation: {
         ...Post.resolvers.mutations,
+        ...User.resolvers.mutations,
       },
       ...Post.resolvers.extraResolver,
       ...User.resolvers.extraResolver,

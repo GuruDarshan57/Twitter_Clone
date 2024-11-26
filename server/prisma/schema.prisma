@@ -22,8 +22,21 @@ model User {
   profileImgUrl String?
   posts         Post[]
 
+  followers  Follows[] @relation("follower")
+  followings Follows[] @relation("following")
+
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
+}
+
+model Follows {
+  follower   User   @relation("follower", fields: [followerId], references: [id])
+  followerId String
+
+  following   User   @relation("following", fields: [followingId], references: [id])
+  followingId String
+
+  @@id([followerId, followingId])
 }
 
 model Post {
