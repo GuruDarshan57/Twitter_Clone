@@ -8,7 +8,7 @@ const Page = () => {
   useEffect(() => {
     //redirect to home page
     Router.replace("/home");
-  });
+  }, []);
   return <></>;
 };
 

@@ -63,10 +63,10 @@ const extraResolver = {
     },
     following: async (parent: User) => {
       const followers = await prismaClient.follows.findMany({
-        where: { followingId: parent.id },
-        include: { follower: true },
+        where: { followerId: parent.id },
+        include: { following: true },
       });
-      return followers.map((ele) => ele.follower);
+      return followers.map((ele) => ele.following);
     },
   },
 };

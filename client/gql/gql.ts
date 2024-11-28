@@ -19,7 +19,7 @@ const documents = {
     "\n  #graphql\n  query Query($imageName: String!, $imageType: String!) {\n    getSignedURL(imageName: $imageName, imageType: $imageType)\n  }\n": types.QueryDocument,
     "\n  query verifyUserGoogleTokenQuery($token: String!) {\n    verifyGoogleToken(token: $token)\n  }\n": types.VerifyUserGoogleTokenQueryDocument,
     "\n  query getCurrentUserData {\n    getCurrentUserData {\n      id\n      email\n      firstName\n      lastName\n      profileImgUrl\n    }\n  }\n": types.GetCurrentUserDataDocument,
-    "\n  #graphql\n  query getUserData($getUserDataId: String!) {\n    getUserData(id: $getUserDataId) {\n      id\n      firstName\n      lastName\n      profileImgUrl\n      posts {\n        id\n        content\n        imageUrl\n      }\n    }\n  }\n": types.GetUserDataDocument,
+    "\n  #graphql\n  query getUserData($getUserDataId: String!) {\n    getUserData(id: $getUserDataId) {\n      id\n      firstName\n      lastName\n      profileImgUrl\n      followers {\n        id\n      }\n      following {\n        id\n      }\n      posts {\n        id\n        content\n        imageUrl\n      }\n    }\n  }\n": types.GetUserDataDocument,
 };
 
 /**
@@ -59,7 +59,7 @@ export function graphql(source: "\n  query getCurrentUserData {\n    getCurrentU
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  #graphql\n  query getUserData($getUserDataId: String!) {\n    getUserData(id: $getUserDataId) {\n      id\n      firstName\n      lastName\n      profileImgUrl\n      posts {\n        id\n        content\n        imageUrl\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query getUserData($getUserDataId: String!) {\n    getUserData(id: $getUserDataId) {\n      id\n      firstName\n      lastName\n      profileImgUrl\n      posts {\n        id\n        content\n        imageUrl\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  #graphql\n  query getUserData($getUserDataId: String!) {\n    getUserData(id: $getUserDataId) {\n      id\n      firstName\n      lastName\n      profileImgUrl\n      followers {\n        id\n      }\n      following {\n        id\n      }\n      posts {\n        id\n        content\n        imageUrl\n      }\n    }\n  }\n"): (typeof documents)["\n  #graphql\n  query getUserData($getUserDataId: String!) {\n    getUserData(id: $getUserDataId) {\n      id\n      firstName\n      lastName\n      profileImgUrl\n      followers {\n        id\n      }\n      following {\n        id\n      }\n      posts {\n        id\n        content\n        imageUrl\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

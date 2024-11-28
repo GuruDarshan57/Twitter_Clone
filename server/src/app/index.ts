@@ -7,7 +7,6 @@ import { User } from "./user/index";
 import { Post } from "./post/index";
 import cors from "cors";
 import JWTservice from "../services/JWT";
-import { introspectionTypes } from "graphql";
 
 export default async function initilizeServer() {
   const app = express();

@@ -12,8 +12,13 @@ class JWTservice {
     const token = jwt.sign(payload, secret);
     return token;
   }
-  public static verifyToken(token: string): JWTPayload {
-    return jwt.verify(token, secret) as JWTPayload;
+  public static verifyToken(token: string): JWTPayload | "" {
+    try {
+      return jwt.verify(token, secret) as JWTPayload;
+    } catch (err: Error | any) {
+      console.log(err.message);
+      return "";
+    }
   }
 }
 

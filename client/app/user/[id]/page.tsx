@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { GoArrowLeft } from "react-icons/go";
 import { HiMiniCalendarDays } from "react-icons/hi2";
@@ -8,6 +8,11 @@ import { useRouter } from "next/navigation";
 import { useGetCurrentUserDetails, useGetUserData } from "@hooks/user";
 import { useQueryClient } from "@tanstack/react-query";
 import PostCard from "@components/PostCard";
+import { graphqlClient } from "@clients/api";
+import {
+  FollowUserMutation,
+  UnFollowUserMutation,
+} from "@graphql/mutation/user";
 
 interface Props {
   params: {
@@ -20,6 +25,7 @@ const page = ({ params }: Props) => {
   const { profile_data } = useGetUserData(params.id);
   const { user } = useGetCurrentUserDetails();
   const [active, setActive] = useState("Post");
+  const [followState, setFollowState] = useState("Follow");
   const router = useRouter();
 
   useEffect(() => {
@@ -27,6 +33,26 @@ const page = ({ params }: Props) => {
       ? ""
       : queryClient.invalidateQueries({ queryKey: ["profile-data"] });
   }, []);
+
+  //to check if the user is following the profile owner or no
+  const amIFollowing = useMemo(() => {
+    const following = profile_data?.followers?.find(
+      (item) => item?.id === user?.id
+    );
+    setFollowState(following ? "Following" : "Follow");
+    return following ? true : false;
+  }, [profile_data, user]);
+
+  const handleFollowUnfollow = useCallback(async () => {
+    amIFollowing
+      ? await graphqlClient.request(UnFollowUserMutation, {
+          to: profile_data?.id,
+        })
+      : await graphqlClient.request(FollowUserMutation, {
+          to: profile_data?.id,
+        });
+    queryClient.invalidateQueries({ queryKey: ["profile-data"] });
+  }, [profile_data]);
   return (
     <div className="w-full flex flex-col h-full max-h-full overflow-y-scroll hidescrollbar">
       <div className="flex w-full p-2 py-1 pl-4 justify-start items-center gap-6 glass_bg border-b-[0.5px] border-slate-700">
@@ -46,7 +72,7 @@ const page = ({ params }: Props) => {
               : ""}
           </span>
           <span className="text-sm text-gray-500">
-            {profile_data?.posts?.length} posts
+            {profile_data?.posts?.length || 0} posts
           </span>
         </div>
       </div>
@@ -74,11 +100,26 @@ const page = ({ params }: Props) => {
           ""
         )}
         {params.id === user?.id ? (
-          <div className="w-fit p-2 px-4 rounded-full border-[0.5px] border-slate-500 absolute right-6 bottom-2 cursor-pointer tracking-wide hover:bg-slate-900">
+          <div className="w-fit p-[5px] px-4 rounded-full border-[0.5px] border-slate-500 absolute right-6 bottom-2 cursor-pointer tracking-wide hover:bg-slate-900">
             Edit profile
           </div>
         ) : (
-          ""
+          <div
+            className={`w-fit p-[5px] px-4 rounded-full border-[0.5px] bg-white text-black font-semibold absolute right-6 bottom-2 cursor-pointer tracking-wide hover:bg-gray-200 ${
+              amIFollowing
+                ? "hover:border-red-600 hover:bg-black hover:text-red-600"
+                : ""
+            }`}
+            onClick={handleFollowUnfollow}
+            onMouseEnter={() => {
+              setFollowState(amIFollowing ? "Unfollow" : "Follow");
+            }}
+            onMouseLeave={() => {
+              setFollowState(amIFollowing ? "Following" : "Follow");
+            }}
+          >
+            {followState}
+          </div>
         )}
       </div>
       <div className="flex flex-col gap-2 p-2 pl-4">
@@ -105,10 +146,16 @@ const page = ({ params }: Props) => {
         </div>
         <div className="flex gap-4 font-thin text-sm tracking-wider">
           <span className="text-sm text-slate-400">
-            <span className="text-white font-bold">101</span> Following
+            <span className="text-white font-bold">
+              {profile_data?.following?.length || 0}
+            </span>{" "}
+            Following
           </span>
           <span className="text-sm text-slate-400">
-            <span className="text-white font-bold">29</span> Follower
+            <span className="text-white font-bold">
+              {profile_data?.followers?.length || 0}
+            </span>{" "}
+            Followers
           </span>
         </div>
       </div>

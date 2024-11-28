@@ -14,6 +14,8 @@ const RightBar = () => {
   const handleLoginWithGoogle = useCallback(
     async (cred: CredentialResponse) => {
       const googleToken = cred.credential;
+      console.log(googleToken);
+
       if (!googleToken) return toast.error("Google token not found");
       const { verifyGoogleToken } = await graphqlClient.request(
         verifyUserGoogleTokenQuery,

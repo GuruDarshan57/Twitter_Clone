@@ -26,6 +26,12 @@ export const getUserDataQuery = graphql(`
       firstName
       lastName
       profileImgUrl
+      followers {
+        id
+      }
+      following {
+        id
+      }
       posts {
         id
         content

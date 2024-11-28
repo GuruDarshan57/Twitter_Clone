@@ -12,7 +12,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     setLoader(posts ? false : true);
-  });
+  }, []);
   return (
     <>
       <HomeTopBar />
@@ -29,29 +29,9 @@ const Home: React.FC = () => {
         )}
 
         {loader ? <Loader /> : ""}
-        {/* {sample_data
-          ? sample_data.map((post: any) =>
-              post ? <PostCard key={post.id} data={post} /> : ""
-            )
-          : ""} */}
       </div>
     </>
   );
 };
-
-const sample_data = [
-  {
-    id: "cm34dnyh80000ylokb1yk8jtr",
-    imageUrl: null,
-    content: "Hi Guru",
-    author: {
-      id: "cm2zy3f4l00008wxrdi7rraq6",
-      profileImgUrl:
-        "https://lh3.googleusercontent.com/a/ACg8ocKCqp5nISXDwXuniNpdrBBydwuVNablP3k8c3MfKMjTI58dJ8Y=s96-c",
-      firstName: "dev",
-      lastName: null,
-    },
-  },
-];
 
 export default Home;
