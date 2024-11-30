@@ -5,6 +5,7 @@ import PostCard from "@components/PostCard";
 import HomeTopBar from "@components/HomeTopBar";
 import CreatePost from "@components/CreatePost";
 import Loader from "@components/Loader";
+import X3Layout from "@components/X3Layout";
 
 const Home: React.FC = () => {
   const [loader, setLoader] = useState(true);
@@ -14,23 +15,27 @@ const Home: React.FC = () => {
     setLoader(posts ? false : true);
   }, []);
   return (
-    <>
-      <HomeTopBar />
-      <div className="w-full h-full max-h-full overflow-y-scroll hidescrollbar flex flex-col">
-        <CreatePost />
-        {posts ? (
-          posts.map((post: any) =>
-            post ? <PostCard key={post.id} data={post} /> : ""
-          )
-        ) : (
-          <div className="w-full h-full flex justify-center items-center">
-            No Posts
-          </div>
-        )}
+    <X3Layout
+      children={
+        <>
+          <HomeTopBar />
+          <div className="w-full h-full max-h-full overflow-y-scroll hidescrollbar flex flex-col">
+            <CreatePost />
+            {posts ? (
+              posts.map((post: any) =>
+                post ? <PostCard key={post.id} data={post} /> : ""
+              )
+            ) : (
+              <div className="w-full h-full flex justify-center items-center">
+                No Posts
+              </div>
+            )}
 
-        {loader ? <Loader /> : ""}
-      </div>
-    </>
+            {loader ? <Loader /> : ""}
+          </div>
+        </>
+      }
+    />
   );
 };
 
