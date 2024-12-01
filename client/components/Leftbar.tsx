@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaXTwitter } from "react-icons/fa6";
 import { GoHome } from "react-icons/go";
 import { GoHomeFill } from "react-icons/go";
@@ -28,7 +28,11 @@ interface Menuitem {
 
 const Sidebar = () => {
   const { user } = useGetCurrentUserDetails();
-  const [path, setPath] = useState(window.location.pathname);
+  const [path, setPath] = useState("");
+
+  useEffect(() => {
+    setPath(window.location.pathname);
+  }, []);
 
   const sidebar_menu_items: Menuitem[] = [
     {

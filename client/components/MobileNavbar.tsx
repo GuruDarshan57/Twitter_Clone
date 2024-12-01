@@ -19,7 +19,11 @@ interface MenuItem {
 
 const MobileNavbar = () => {
   const { user } = useGetCurrentUserDetails();
-  const [path, setPath] = useState(window.location.pathname);
+  const [path, setPath] = useState("");
+
+  useEffect(() => {
+    setPath(window.location.pathname);
+  }, []);
 
   const MenuItems: MenuItem[] = [
     {
