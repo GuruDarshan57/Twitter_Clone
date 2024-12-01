@@ -40,7 +40,7 @@ const Page = () => {
   useEffect(() => {
     //redirect to home page
     user ? Router.replace("/home") : "";
-  }, []);
+  }, [user]);
   return (
     <div className="flex flex-col w-full h-full items-center">
       <div className="flex flex-col lg:flex-row w-full h-fit">

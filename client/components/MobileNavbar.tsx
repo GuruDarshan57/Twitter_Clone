@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { GoHome } from "react-icons/go";
 import { MdHomeFilled } from "react-icons/md";
