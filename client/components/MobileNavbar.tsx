@@ -18,7 +18,7 @@ interface MenuItem {
 
 const MobileNavbar = () => {
   const { user } = useGetCurrentUserDetails();
-  const [active, setActive] = useState("Home");
+  const path = window.location.pathname;
 
   const MenuItems: MenuItem[] = [
     {
@@ -52,12 +52,15 @@ const MobileNavbar = () => {
         <span className="p-1">
           <Link
             href={item.redirect ? item.redirect : ""}
-            onClick={() => setActive(item.name)}
             className={`${
               item.functional ? "cursor-pointer" : "cursor-not-allowed"
             }`}
           >
-            {active === item.name ? item.activeIcon : item.icon}
+            {item.redirect
+              ? item.redirect === path
+                ? item.activeIcon
+                : item.icon
+              : item.icon}
           </Link>
         </span>
       ))}

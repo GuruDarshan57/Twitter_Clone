@@ -16,6 +16,7 @@ import { IoIosMore } from "react-icons/io";
 import Link from "next/link";
 import { useGetCurrentUserDetails } from "@hooks/user";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface Menuitem {
   name: string;
@@ -27,7 +28,7 @@ interface Menuitem {
 
 const Sidebar = () => {
   const { user } = useGetCurrentUserDetails();
-  const [active, setActive] = React.useState("Home");
+  const path = window.location.pathname;
 
   const sidebar_menu_items: Menuitem[] = [
     {
@@ -70,18 +71,21 @@ const Sidebar = () => {
             className={`flex gap-4 w-fit rounded-full p-2 lg:px-4 text-2xl items-center justify-start hover:bg-gray-900 ${
               item.functional ? "cursor-pointer" : "cursor-not-allowed"
             }`}
-            onClick={() => {
-              item.activeIcon ? setActive(item.name) : "";
-            }}
           >
             <span className="text-3xl lg:text-2xl">
-              {active === item.name && item.activeIcon
-                ? item.activeIcon
+              {item.redirect
+                ? item.redirect === path
+                  ? item.activeIcon
+                  : item.icon
                 : item.icon}
             </span>
             <span
               className={`text-lg text-slate-300 font-semibold ${
-                active === item.name ? "font-extrabold text-white" : ""
+                item.redirect
+                  ? item.redirect === path
+                    ? "font-extrabold text-white"
+                    : ""
+                  : ""
               } tracking-wide hidden lg:inline`}
             >
               {item.name}

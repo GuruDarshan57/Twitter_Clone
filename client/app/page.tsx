@@ -144,19 +144,15 @@ const Page = () => {
           Advertising
         </span>
         <span className="text-xs text-gray-500 hover:underline">Marketing</span>
-        <span className="text-xs text-gray-500 hover:text-sky-600 hover:underline">
+        <span className="text-xs text-gray-500 hover:underline">
           X for Business
         </span>
-        <span className="text-xs text-gray-500 hover:text-sky-600 hover:underline">
+        <span className="text-xs text-gray-500 hover:underline">
           Developers
         </span>
-        <span className="text-xs text-gray-500 hover:text-sky-600 hover:underline">
-          Directory
-        </span>
-        <span className="text-xs text-gray-500 hover:text-sky-600 hover:underline">
-          Settings
-        </span>
-        <span className="text-xs text-gray-500 hover:text-sky-600 hover:underline">
+        <span className="text-xs text-gray-500 hover:underline">Directory</span>
+        <span className="text-xs text-gray-500 hover:underline">Settings</span>
+        <span className="text-xs text-gray-500 hover:underline">
           © 2024 X Corp.
         </span>
       </div>

@@ -58,7 +58,7 @@ const page = ({ params }: Props) => {
   return (
     <X3Layout
       children={
-        <div className="w-full flex flex-col h-full max-h-screen overflow-scroll scrollbarhidden">
+        <div className="w-full flex flex-col h-full max-h-screen overflow-y-scroll hidescrollbar">
           <div className="flex w-full p-2 py-1 pl-4 justify-start items-center gap-6 glass_bg border-b-[0.5px] border-slate-700">
             <span
               className="text-xl cursor-pointer rounded-full p-2 hover:bg-gray-900"
