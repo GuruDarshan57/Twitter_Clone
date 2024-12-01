@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoHome } from "react-icons/go";
 import { MdHomeFilled } from "react-icons/md";
 import { HiOutlineBell } from "react-icons/hi2";
@@ -19,7 +19,7 @@ interface MenuItem {
 
 const MobileNavbar = () => {
   const { user } = useGetCurrentUserDetails();
-  const path = window.location.pathname;
+  const [path, setPath] = useState(window.location.pathname);
 
   const MenuItems: MenuItem[] = [
     {
