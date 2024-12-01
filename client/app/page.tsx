@@ -53,11 +53,11 @@ const Page = () => {
           </span>
           <div className="w-full flex flex-col gap-2">
             <span className="text-3xl font-extrabold pb-7">Join today.</span>
-            <div className="text-black w-full md:w-72 rounded-full flex justify-center items-center gap-2 font-bold cursor-pointer hover:bg-slate-100 overflow-hidden">
+            <div className="text-black w-full md:w-72 bg-white rounded-full flex justify-center items-center gap-2 font-bold cursor-pointer hover:bg-slate-100 overflow-hidden">
               <GoogleLogin
                 text={"signup_with"}
                 shape="pill"
-                width={290}
+                width={300}
                 logo_alignment="center"
                 onSuccess={handleLoginWithGoogle}
                 auto_select={true}

@@ -26,7 +26,7 @@ const MobileNavbar = () => {
       icon: <GoHome />,
       activeIcon: <MdHomeFilled />,
       functional: true,
-      redirect: "/",
+      redirect: "/home",
     },
     {
       name: "Notifications",
