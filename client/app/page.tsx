@@ -63,7 +63,6 @@ const Page = () => {
                 onError={() => {
                   console.log("Login Failed");
                 }}
-                useOneTap
               />
             </div>
             <div className="bg-white w-full md:w-72 text-black p-1 py-2 rounded-full flex justify-center items-center gap-2  font-bold cursor-not-allowed hover:bg-slate-100">
