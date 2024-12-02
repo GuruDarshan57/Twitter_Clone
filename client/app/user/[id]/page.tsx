@@ -110,11 +110,14 @@ const page = ({ params }: Props) => {
                 </div>
               ) : (
                 <div
-                  className={`w-28 text-center p-[5px] px-4 rounded-full border-[0.5px] bg-white text-black font-semibold absolute right-6 bottom-2 cursor-pointer tracking-wide hover:bg-gray-200 ${
-                    amIFollowing
-                      ? "hover:border-red-600 hover:bg-black hover:text-red-600"
-                      : ""
-                  }`}
+                  className={
+                    `w-28 text-center p-[5px] px-4 rounded-full border-[0.5px] bg-white text-black font-semibold absolute right-6 bottom-2 cursor-pointer tracking-wide hover:bg-gray-200` +
+                    ` ${
+                      amIFollowing
+                        ? "hover:border-red-600 hover:bg-none hover:text-red-600"
+                        : ""
+                    }`
+                  }
                   onClick={handleFollowUnfollow}
                   onMouseEnter={() => {
                     setFollowState(amIFollowing ? "Unfollow" : "Follow");
@@ -136,7 +139,7 @@ const page = ({ params }: Props) => {
                     : ""}
                 </span>
                 <span className="tracking-wide text-sm text-gray-500">
-                  @{profile_data?.firstName}
+                  @{profile_data?.firstName.toLocaleLowerCase()}
                 </span>
               </div>
               <div className="flex gap-4 font-thin text-sm tracking-wider text-gray-400">

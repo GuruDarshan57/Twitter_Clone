@@ -76,7 +76,7 @@ const PostCard: React.FC<PostProps> = (props) => {
                 (data.author.lastName || "")}
             </span>
             <span className="text-sm text-gray-300 cursor-pointer">
-              @{data.author.firstName} .{" "}
+              @{data.author.firstName.toLocaleLowerCase()} .{" "}
             </span>
             <span className="text-sm text-gray-300 cursor-pointer hover:underline">
               1 Oct

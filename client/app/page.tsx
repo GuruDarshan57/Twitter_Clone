@@ -70,7 +70,7 @@ const Page = () => {
               <GoogleLogin
                 text={"signup_with"}
                 shape="pill"
-                width={330}
+                width={350}
                 logo_alignment="center"
                 onSuccess={handleLoginWithGoogle}
                 auto_select={true}

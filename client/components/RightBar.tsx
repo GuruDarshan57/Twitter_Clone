@@ -3,10 +3,13 @@ import React, { useCallback } from "react";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { FaApple } from "react-icons/fa";
 import toast from "react-hot-toast";
+import Image from "next/image";
+import Link from "next/link";
 import { graphqlClient } from "@clients/api";
 import { verifyUserGoogleTokenQuery } from "@graphql/query/user";
 import { useGetCurrentUserDetails } from "@hooks/user";
 import { useQueryClient } from "@tanstack/react-query";
+import { IoSearchOutline } from "react-icons/io5";
 
 const RightBar = () => {
   const { user } = useGetCurrentUserDetails();
@@ -41,11 +44,11 @@ const RightBar = () => {
             </p>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="text-black rounded-full flex justify-center items-center gap-2 font-bold cursor-pointer hover:bg-slate-100 overflow-hidden">
+            <div className="text-black bg-white rounded-full flex justify-center items-center gap-2 font-bold cursor-pointer hover:bg-slate-100 overflow-hidden">
               <GoogleLogin
                 text={"signup_with"}
                 shape="pill"
-                width={290}
+                width={330}
                 logo_alignment="center"
                 onSuccess={handleLoginWithGoogle}
                 onError={() => {
@@ -83,8 +86,73 @@ const RightBar = () => {
           </div>
         </div>
       ) : (
-        ""
+        <div className="w-full flex flex-col gap-4 ">
+          <div className="w-full group flex items-center h-11 bg-zinc-900 rounded-full px-2 hover:border-[0.5px] hover:border-sky-500">
+            <span className="text-2xl text-zinc-600 px-2 group-hover:text-sky-500">
+              <IoSearchOutline />
+            </span>
+            <input
+              type="text"
+              placeholder="Search"
+              className="flex-1 h-7 rounded-lg pl-4 outline-none bg-transparent placeholder:font-light placeholder:tracking-wide"
+            />
+          </div>
+          {user?.recommendedUsers ? (
+            <div className="w-full border-slate-700 border-[0.5px] rounded-lg flex flex-col px-4 py-3 gap-3">
+              <span className="font-extrabold tracking-wide text-lg">
+                Who to follow
+              </span>
+              {user.recommendedUsers.map((user) => {
+                return user ? (
+                  <div className="flex items-center gap-3">
+                    <Image
+                      src={user ? user.profileImgUrl : ""}
+                      width={100}
+                      height={100}
+                      alt={"profile image"}
+                      className="h-10 w-10 rounded-full"
+                    />
+                    <div className="flex-1 flex flex-col items-start justify-between">
+                      <Link
+                        href={`/user/${user.id}`}
+                        className="text-sm font-bold cursor-pointer hover:underline"
+                      >
+                        {user.firstName.slice(0, 1).toUpperCase() +
+                          user.firstName.slice(1) +
+                          " " +
+                          (user.lastName || "")}
+                      </Link>
+                      <span className="text-xs text-gray-300 cursor-pointer">
+                        {" "}
+                        @{user.firstName.toLocaleLowerCase()}
+                      </span>
+                    </div>
+                    <Link
+                      href={`/user/${user.id}`}
+                      className="w-fit h-fit text-center p-[5px] px-4 rounded-full border-[0.5px] bg-white text-black text-sm font-semibold cursor-pointer tracking-wide hover:bg-gray-200"
+                    >
+                      View
+                    </Link>
+                  </div>
+                ) : (
+                  ""
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
       )}
+      <div className="w-full flex flex-wrap gap-2 text-gray-500 px-1 py-3">
+        <span className="text-xs hover:underline">Terms of Service</span>
+        <span className="text-xs hover:underline">Privacy Policy</span>
+        <span className="text-xs hover:underline">Cookie Policy</span>
+        <span className="text-xs hover:underline">Accessibility</span>
+        <span className="text-xs hover:underline">Ads info</span>
+        <span className="text-xs hover:underline">More</span>
+        <span className="text-xs hover:underline">© 2024 X Corp.</span>
+      </div>
     </div>
   );
 };
