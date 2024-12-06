@@ -70,17 +70,29 @@ const RightBar = () => {
           <div className="text-sm text-gray-500">
             <p className="">
               <span>By signing up, you agree to the </span>
-              <span className="text-sky-600 hover:underline cursor-pointer">
-                Terms of Service{" "}
-              </span>
+              <Link
+                href={"https://x.com/en/tos"}
+                target="_blank"
+                className="text-xs text-gray-500 hover:underline"
+              >
+                Terms of Service
+              </Link>{" "}
               and{" "}
-              <span className="text-sky-600 hover:underline cursor-pointer">
+              <Link
+                href={"https://x.com/en/privacy"}
+                target="_blank"
+                className="text-xs text-gray-500 hover:underline"
+              >
                 Privacy Policy
-              </span>
+              </Link>{" "}
               , including{" "}
-              <span className="text-sky-600 hover:underline cursor-pointer">
+              <Link
+                href="https://help.x.com/en/rules-and-policies/x-cookies"
+                target="_blank"
+                className="text-xs text-gray-500 hover:underline"
+              >
                 Cookie Use
-              </span>
+              </Link>
               .
             </p>
           </div>
@@ -145,11 +157,41 @@ const RightBar = () => {
         </div>
       )}
       <div className="w-full flex flex-wrap gap-2 text-gray-500 px-1 py-3">
-        <span className="text-xs hover:underline">Terms of Service</span>
-        <span className="text-xs hover:underline">Privacy Policy</span>
-        <span className="text-xs hover:underline">Cookie Policy</span>
-        <span className="text-xs hover:underline">Accessibility</span>
-        <span className="text-xs hover:underline">Ads info</span>
+        <Link
+          href="https://x.com/en/tos"
+          target="_blank"
+          className="text-xs text-gray-500 hover:underline"
+        >
+          Terms of Service
+        </Link>
+        <Link
+          href="https://x.com/en/privacy"
+          target="_blank"
+          className="text-xs text-gray-500 hover:underline"
+        >
+          Privacy Policy
+        </Link>
+        <Link
+          href="https://help.x.com/en/rules-and-policies/x-cookies"
+          target="_blank"
+          className="text-xs text-gray-500 hover:underline"
+        >
+          Cookie Policy
+        </Link>
+        <Link
+          href="https://x.com/accessibility"
+          target="_blank"
+          className="text-xs text-gray-500 hover:underline"
+        >
+          Accessibility
+        </Link>
+        <Link
+          href="https://help.x.com/en/resources/accessibility"
+          target="_blank"
+          className="text-xs text-gray-500 hover:underline"
+        >
+          Ads info
+        </Link>
         <span className="text-xs hover:underline">More</span>
         <span className="text-xs hover:underline">© 2024 X Corp.</span>
       </div>
