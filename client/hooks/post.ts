@@ -25,6 +25,11 @@ export const useCreatePost = () => {
       queryClient.invalidateQueries({ queryKey: ["all-posts"] });
       toast.success("Post Created", { id: "create-post" });
     },
+    onError: () => {
+      toast.error("Please wait for 10 seconds after posting.", {
+        id: "create-post",
+      });
+    },
   });
   return mutation;
 };
