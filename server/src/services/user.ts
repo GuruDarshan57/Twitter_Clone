@@ -1,6 +1,7 @@
 import axios from "axios";
-import { prismaClient } from "../client/db";
+import { prismaClient } from "../client/prisma";
 import JWTservice from "./JWT";
+import { redisClient } from "../client/redis";
 
 class UserService {
   //to verify google auth token from client and send jwt token
@@ -31,7 +32,18 @@ class UserService {
 
   //to get logged in user
   public static async getCurrentUserData(userEmail: string) {
-    return await prismaClient.user.findUnique({ where: { email: userEmail } });
+    const cachedCurrentUser = await redisClient.get(userEmail);
+    if (cachedCurrentUser) {
+      // console.log("Cached User");
+      return JSON.parse(cachedCurrentUser);
+    }
+    const currentUser = await prismaClient.user.findUnique({
+      where: { email: userEmail },
+    });
+    await redisClient.set(userEmail, JSON.stringify(currentUser));
+    return currentUser;
+
+    //to get user by id
   }
 
   //follow user
@@ -42,6 +54,7 @@ class UserService {
         following: { connect: { id: to } },
       },
     });
+    await redisClient.del(`RECOMMENDED_USERS:${from}`);
     return true;
   }
 
@@ -55,6 +68,7 @@ class UserService {
         },
       },
     });
+    await redisClient.del(`RECOMMENDED_USERS:${from}`);
     return true;
   }
 }

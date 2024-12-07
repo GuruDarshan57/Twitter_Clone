@@ -1,7 +1,8 @@
-import { prismaClient } from "../../client/db";
+import { prismaClient } from "../../client/prisma";
 import { GraphqlContext } from "../../interfaces";
 import { PrismaClient, User } from "@prisma/client";
 import UserService from "../../services/user";
+import { redisClient } from "../../client/redis";
 
 const queries = {
   verifyGoogleToken: async (parent: any, { token }: { token: string }) => {
@@ -78,6 +79,14 @@ const extraResolver = {
         },
       });
 
+      const cachedRecommendedUsers = await redisClient.get(
+        `RECOMMENDED_USERS:${parent.id}`
+      );
+      if (cachedRecommendedUsers) {
+        // console.log("Cached Recommended Users");
+        return JSON.parse(cachedRecommendedUsers);
+      }
+
       let recommendedUsers: User[] = [];
 
       for (const following of myfollowings) {
@@ -95,6 +104,11 @@ const extraResolver = {
           }
         }
       }
+
+      await redisClient.set(
+        `RECOMMENDED_USERS:${parent.id}`,
+        JSON.stringify(recommendedUsers)
+      );
       return recommendedUsers;
     },
   },
