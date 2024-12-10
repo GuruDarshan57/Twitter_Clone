@@ -41,7 +41,6 @@ const Page = () => {
   useEffect(() => {
     //redirect to home page
     user ? Router.replace("/home") : "";
-    console.log("render");
   });
   return (
     <div className="flex flex-col w-full h-full items-center">

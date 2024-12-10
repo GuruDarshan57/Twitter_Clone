@@ -29,12 +29,12 @@ const page = ({ params }: Props) => {
   const [followState, setFollowState] = useState("Follow");
   const router = useRouter();
 
-  useEffect(() => {
-    profile_data?.id === params.id
-      ? ""
-      : queryClient.invalidateQueries({ queryKey: ["profile-data"] });
-    !user ? router.replace("/") : "";
-  }, []);
+  // useEffect(() => {
+  //   profile_data?.id === params.id
+  //     ? ""
+  //     : queryClient.invalidateQueries({ queryKey: ["profile-data"] });
+  //   !user ? router.replace("/") : "";
+  // }, []);
 
   //to check if the user is following the profile owner or no
   const amIFollowing = useMemo(() => {
