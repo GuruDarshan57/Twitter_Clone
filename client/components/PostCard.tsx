@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { IoIosMore } from "react-icons/io";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { LuRepeat2 } from "react-icons/lu";
 import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeart } from "react-icons/io";
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { MdBookmarkBorder } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
@@ -14,6 +15,9 @@ import Loader from "./Loader";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetCurrentUserDetails } from "@hooks/user";
+import { graphqlClient } from "@clients/api";
+import { UnLikePostMutation } from "@graphql/mutation/post";
+import { LikePostMutation } from "@graphql/mutation/post";
 
 interface PostProps {
   data: {
@@ -26,6 +30,7 @@ interface PostProps {
       lastName?: string | null;
       profileImgUrl: string;
     };
+    likes: { id: string }[];
   };
 }
 
@@ -36,6 +41,22 @@ const PostCard: React.FC<PostProps> = (props) => {
   const { data } = props;
   const router = useRouter();
   const [pre, setPre] = useState(false);
+  const [like, setLike] = useState(
+    data.likes.find((ele) => (user ? ele.id == user.id : null)) ? true : false
+  );
+
+  const like_unlikePost = useCallback(
+    async (like: boolean, postId: string, userId: string) => {
+      like
+        ? await graphqlClient.request(UnLikePostMutation, { postId })
+        : await graphqlClient.request(LikePostMutation, { postId });
+      setLike(!like);
+      like
+        ? (data.likes = data.likes.filter((ele) => ele.id != userId))
+        : data.likes.push({ id: userId });
+    },
+    []
+  );
   return (
     <div className="w-full flex gap-4 p-2 pr-4 border-b-2 border-gray-800 text-gray-200 tracking-wide hover:bg-gray-950">
       <div className="w-fit flex justify-center items-start">
@@ -148,9 +169,16 @@ const PostCard: React.FC<PostProps> = (props) => {
               <IoChatbubbleOutline />
               <span className="text-sm place-content-center">201</span>
             </span>
-            <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-red-700 p-1 px-2 rounded-full cursor-pointer">
-              <IoMdHeartEmpty />
-              <span className="text-sm">256</span>
+            <span
+              className={`flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-red-700 ${
+                like ? "text-red-700" : ""
+              }  p-1 px-2 rounded-full cursor-pointer`}
+              onClick={() => {
+                like_unlikePost(like, data.id, user ? user.id : "");
+              }}
+            >
+              {like ? <IoMdHeart /> : <IoMdHeartEmpty />}
+              <span className="text-sm">{data.likes.length}</span>
             </span>
             <span className="flex text-lg">
               <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer">

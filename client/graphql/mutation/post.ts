@@ -8,3 +8,15 @@ export const createPostMutation = graphql(`
     }
   }
 `);
+
+export const LikePostMutation = `#graphql
+mutation Mutation($postId: String!) {
+  likePost(postId: $postId)
+}
+`;
+
+export const UnLikePostMutation = `#graphql
+mutation Mutation($postId: String!) {
+  unlikePost(postId: $postId)
+}
+`;

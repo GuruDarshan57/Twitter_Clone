@@ -7,6 +7,9 @@ export const GetAllPostsQuery = graphql(`
       id
       content
       imageUrl
+      likes {
+        id
+      }
       author {
         id
         email
