@@ -74,6 +74,13 @@ const extraResolver = {
   Post: {
     author: async (parent: Post) =>
       await prismaClient.user.findUnique({ where: { id: parent.authorId } }),
+    likes: async (parent: Post) => {
+      const likedUsers = await prismaClient.likes.findMany({
+        where: { postId: parent.id },
+        include: { likedUser: true },
+      });
+      return likedUsers.map((ele) => ele.likedUser);
+    },
   },
 };
 
