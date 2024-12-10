@@ -21,6 +21,7 @@ model User {
   email         String  @unique
   profileImgUrl String?
   posts         Post[]
+  likedPosts    Likes[]
 
   followers  Follows[] @relation("following")
   followings Follows[] @relation("follower")
@@ -39,12 +40,22 @@ model Follows {
   @@id([followerId, followingId])
 }
 
+model Likes {
+  post        Post   @relation(fields: [postId], references: [id])
+  postId      String
+  likedUser   User   @relation(fields: [likedUserId], references: [id])
+  likedUserId String
+
+  @@id([postId, likedUserId])
+}
+
 model Post {
   id       String  @id @default(cuid())
   content  String
   imageUrl String?
   author   User    @relation(fields: [authorId], references: [id])
   authorId String
+  likes    Likes[]
 
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt

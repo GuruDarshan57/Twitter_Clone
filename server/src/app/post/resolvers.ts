@@ -22,6 +22,24 @@ const mutations = {
     if (!contextValue.user) throw new Error("You are not Authenticated");
     return PostsService.createPost(payload, contextValue.user.id);
   },
+  likePost: async (
+    parent: any,
+    { postId }: { postId: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    const userId = contextValue.user.id;
+    return PostsService.likePost(postId, userId);
+  },
+  unlikePost: async (
+    parent: any,
+    { postId }: { postId: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    const userId = contextValue.user.id;
+    return PostsService.unlikePost(postId, userId);
+  },
 };
 
 const queries = {

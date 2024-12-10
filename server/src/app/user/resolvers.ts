@@ -111,6 +111,13 @@ const extraResolver = {
       );
       return recommendedUsers;
     },
+    likedPosts: async (parent: User) => {
+      const likedPosts = await prismaClient.likes.findMany({
+        where: { likedUserId: parent.id },
+        include: { post: true },
+      });
+      return likedPosts.map((ele) => ele.post);
+    },
   },
 };
 

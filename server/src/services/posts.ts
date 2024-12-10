@@ -43,6 +43,22 @@ class PostsService {
     await redisClient.set("Posts", JSON.stringify(posts));
     return posts;
   }
+
+  //like Post
+  public static async likePost(postId: string, userId: string) {
+    await prismaClient.likes.create({
+      data: { postId: postId, likedUserId: userId },
+    });
+    return true;
+  }
+
+  //unlike Post
+  public static async unlikePost(postId: string, userId: string) {
+    await prismaClient.likes.deleteMany({
+      where: { postId: postId, likedUserId: userId },
+    });
+    return true;
+  }
 }
 
 export default PostsService;
