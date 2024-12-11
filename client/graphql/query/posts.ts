@@ -10,6 +10,9 @@ export const GetAllPostsQuery = graphql(`
       likes {
         id
       }
+      bookmarks {
+        id
+      }
       author {
         id
         email

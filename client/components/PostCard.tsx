@@ -8,6 +8,7 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { MdBookmarkBorder } from "react-icons/md";
+import { MdBookmark } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import { useRouter } from "next/navigation";
@@ -16,7 +17,11 @@ import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetCurrentUserDetails } from "@hooks/user";
 import { graphqlClient } from "@clients/api";
-import { UnLikePostMutation } from "@graphql/mutation/post";
+import {
+  BookmarkPostMutation,
+  UnBookmarkPostMutation,
+  UnLikePostMutation,
+} from "@graphql/mutation/post";
 import { LikePostMutation } from "@graphql/mutation/post";
 
 interface PostProps {
@@ -31,6 +36,7 @@ interface PostProps {
       profileImgUrl: string;
     };
     likes: { id: string }[];
+    bookmarks: { id: string }[];
   };
 }
 
@@ -44,6 +50,11 @@ const PostCard: React.FC<PostProps> = (props) => {
   const [like, setLike] = useState(
     data.likes.find((ele) => (user ? ele.id == user.id : null)) ? true : false
   );
+  const [bookmark, setBookmark] = useState(
+    data.bookmarks.find((ele) => (user ? ele.id == user.id : null))
+      ? true
+      : false
+  );
 
   const like_unlikePost = useCallback(
     async (like: boolean, postId: string, userId: string) => {
@@ -54,6 +65,16 @@ const PostCard: React.FC<PostProps> = (props) => {
       like
         ? (data.likes = data.likes.filter((ele) => ele.id != userId))
         : data.likes.push({ id: userId });
+    },
+    []
+  );
+
+  const bookmark_unbookmarkPost = useCallback(
+    async (bookmark: boolean, postId: string, userId: string) => {
+      bookmark
+        ? await graphqlClient.request(UnBookmarkPostMutation, { postId })
+        : await graphqlClient.request(BookmarkPostMutation, { postId });
+      setBookmark(!bookmark);
     },
     []
   );
@@ -181,8 +202,21 @@ const PostCard: React.FC<PostProps> = (props) => {
               <span className="text-sm">{data.likes.length}</span>
             </span>
             <span className="flex text-lg">
-              <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer">
-                <MdBookmarkBorder />
+              <span
+                className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer"
+                onClick={() => {
+                  bookmark_unbookmarkPost(
+                    bookmark,
+                    data.id,
+                    user ? user.id : ""
+                  );
+                }}
+              >
+                {bookmark ? (
+                  <MdBookmark className="text-blue-500" />
+                ) : (
+                  <MdBookmarkBorder />
+                )}
               </span>
             </span>
             <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer text-lg">
