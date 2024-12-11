@@ -59,6 +59,22 @@ class PostsService {
     });
     return true;
   }
+
+  //bookamrk Post
+  public static async bookamrkPost(postId: string, userId: string) {
+    await prismaClient.bookmarks.create({
+      data: { postId: postId, bookmarkedUserId: userId },
+    });
+    return true;
+  }
+
+  //unbookmark Post
+  public static async unbookamrkPost(postId: string, userId: string) {
+    await prismaClient.bookmarks.deleteMany({
+      where: { postId: postId, bookmarkedUserId: userId },
+    });
+    return true;
+  }
 }
 
 export default PostsService;

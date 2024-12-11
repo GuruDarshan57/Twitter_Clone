@@ -7,6 +7,8 @@ export const types = `#graphql
         profileImgUrl:String!
         posts:[Post]
         likedPosts:[Post]
+        bookmarkedPosts:[Post]
+
 
         recommendedUsers:[User]
         

@@ -118,6 +118,13 @@ const extraResolver = {
       });
       return likedPosts.map((ele) => ele.post);
     },
+    bookmarkedPosts: async (parent: User) => {
+      const bookmarkedPosts = await prismaClient.bookmarks.findMany({
+        where: { bookmarkedUserId: parent.id },
+        include: { post: true },
+      });
+      return bookmarkedPosts.map((ele) => ele.post);
+    },
   },
 };
 

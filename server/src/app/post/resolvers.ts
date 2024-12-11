@@ -40,6 +40,24 @@ const mutations = {
     const userId = contextValue.user.id;
     return PostsService.unlikePost(postId, userId);
   },
+  bookmarkPost: async (
+    parent: any,
+    { postId }: { postId: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    const userId = contextValue.user.id;
+    return PostsService.bookamrkPost(postId, userId);
+  },
+  unbookmarkPost: async (
+    parent: any,
+    { postId }: { postId: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    const userId = contextValue.user.id;
+    return PostsService.unbookamrkPost(postId, userId);
+  },
 };
 
 const queries = {
@@ -80,6 +98,13 @@ const extraResolver = {
         include: { likedUser: true },
       });
       return likedUsers.map((ele) => ele.likedUser);
+    },
+    bookmarks: async (parent: Post) => {
+      const bookmarkedUsers = await prismaClient.bookmarks.findMany({
+        where: { postId: parent.id },
+        include: { bookmarkedUser: true },
+      });
+      return bookmarkedUsers.map((ele) => ele.bookmarkedUser);
     },
   },
 };
