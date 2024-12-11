@@ -23,6 +23,7 @@ model User {
   posts           Post[]
   likedPosts      Likes[]
   bookmarkedPosts Bookmarks[]
+  comments        Comments[]
 
   followers  Follows[] @relation("following")
   followings Follows[] @relation("follower")
@@ -32,41 +33,54 @@ model User {
 }
 
 model Follows {
-  follower   User   @relation("follower", fields: [followerId], references: [id])
+  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
   followerId String
 
-  following   User   @relation("following", fields: [followingId], references: [id])
+  following   User   @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
   followingId String
 
   @@id([followerId, followingId])
 }
 
 model Likes {
-  post        Post   @relation(fields: [postId], references: [id])
+  post        Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId      String
-  likedUser   User   @relation(fields: [likedUserId], references: [id])
+  likedUser   User   @relation(fields: [likedUserId], references: [id], onDelete: Cascade)
   likedUserId String
 
   @@id([postId, likedUserId])
 }
 
 model Bookmarks {
-  post             Post   @relation(fields: [postId], references: [id])
+  post             Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId           String
-  bookmarkedUser   User   @relation(fields: [bookmarkedUserId], references: [id])
+  bookmarkedUser   User   @relation(fields: [bookmarkedUserId], references: [id], onDelete: Cascade)
   bookmarkedUserId String
 
   @@id([postId, bookmarkedUserId])
+}
+
+model Comments {
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  comment   String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@id([postId, authorId])
 }
 
 model Post {
   id        String      @id @default(cuid())
   content   String
   imageUrl  String?
-  author    User        @relation(fields: [authorId], references: [id])
+  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
   likes     Likes[]
   bookmarks Bookmarks[]
+  comments  Comments[]
 
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt

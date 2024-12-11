@@ -75,6 +75,18 @@ class PostsService {
     });
     return true;
   }
+
+  //add comment over post
+  public static async addComment(
+    postId: string,
+    comment: string,
+    userId: string
+  ) {
+    await prismaClient.comments.create({
+      data: { postId: postId, comment: comment, authorId: userId },
+    });
+    return true;
+  }
 }
 
 export default PostsService;

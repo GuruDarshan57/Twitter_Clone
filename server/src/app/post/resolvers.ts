@@ -58,6 +58,15 @@ const mutations = {
     const userId = contextValue.user.id;
     return PostsService.unbookamrkPost(postId, userId);
   },
+  addComment: async (
+    parent: any,
+    { postId, comment }: { postId: string; comment: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    const userId = contextValue.user.id;
+    return PostsService.addComment(postId, comment, userId);
+  },
 };
 
 const queries = {
@@ -105,6 +114,14 @@ const extraResolver = {
         include: { bookmarkedUser: true },
       });
       return bookmarkedUsers.map((ele) => ele.bookmarkedUser);
+    },
+    comments: async (parent: Post) => {
+      const comments = await prismaClient.comments.findMany({
+        where: { postId: parent.id },
+        include: { author: true },
+      });
+      console.log(comments);
+      return comments;
     },
   },
 };
