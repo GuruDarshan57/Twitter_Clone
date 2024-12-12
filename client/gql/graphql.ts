@@ -16,8 +16,16 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  author?: Maybe<User>;
+  comment?: Maybe<Scalars['String']['output']>;
+  post?: Maybe<Post>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addComment?: Maybe<Scalars['Boolean']['output']>;
   bookmarkPost?: Maybe<Scalars['Boolean']['output']>;
   createPost?: Maybe<Post>;
   followUser?: Maybe<Scalars['Boolean']['output']>;
@@ -25,6 +33,12 @@ export type Mutation = {
   unFollowUser?: Maybe<Scalars['Boolean']['output']>;
   unbookmarkPost?: Maybe<Scalars['Boolean']['output']>;
   unlikePost?: Maybe<Scalars['Boolean']['output']>;
+};
+
+
+export type MutationAddCommentArgs = {
+  comment: Scalars['String']['input'];
+  postId: Scalars['String']['input'];
 };
 
 
@@ -66,6 +80,7 @@ export type Post = {
   __typename?: 'Post';
   author: User;
   bookmarks?: Maybe<Array<Maybe<User>>>;
+  comments?: Maybe<Array<Maybe<Comment>>>;
   content: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   imageUrl?: Maybe<Scalars['String']['output']>;

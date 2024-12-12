@@ -9,12 +9,3 @@ export const useGetCurrentUserDetails = () => {
   });
   return { ...query, user: query.data?.getCurrentUserData };
 };
-
-export const useGetUserData = (userId: string) => {
-  const query = useQuery({
-    queryKey: ["profile-data"],
-    queryFn: () =>
-      graphqlClient.request(getUserDataQuery, { getUserDataId: userId }),
-  });
-  return { ...query, profile_data: query.data?.getUserData };
-};
