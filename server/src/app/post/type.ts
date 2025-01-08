@@ -13,6 +13,7 @@ export const types = `#graphql
     comments:[Comment]
   }
   type Comment{
+    id:String
     post:Post
     author:User
     comment:String

@@ -30,17 +30,17 @@ class PostsService {
 
   //get all posts
   public static async getAllPosts() {
-    const cachedPosts = await redisClient.get("Posts");
-    if (cachedPosts) {
-      // console.log("Cached posts");
-      return JSON.parse(cachedPosts);
-    }
+    // const cachedPosts = await redisClient.get("Posts");
+    // if (cachedPosts) {
+    //   // console.log("Cached posts");
+    //   return JSON.parse(cachedPosts);
+    // }
 
     const posts = await prismaClient.post.findMany({
       orderBy: { createdAt: "desc" },
     });
 
-    await redisClient.set("Posts", JSON.stringify(posts));
+    // await redisClient.set("Posts", JSON.stringify(posts));
     return posts;
   }
 

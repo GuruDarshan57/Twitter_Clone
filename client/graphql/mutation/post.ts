@@ -32,3 +32,8 @@ mutation Mutation($postId: String!) {
   unbookmarkPost(postId: $postId)
 }
 `;
+
+export const AddCommentMutation = `#graphql
+mutation AddComment($postId: String!, $comment: String!) {
+  addComment(postId: $postId, comment: $comment)
+}`;

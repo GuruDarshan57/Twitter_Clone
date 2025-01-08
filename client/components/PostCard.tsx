@@ -3,13 +3,17 @@ import React, { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { IoIosMore } from "react-icons/io";
 import { IoChatbubbleOutline } from "react-icons/io5";
-import { LuRepeat2 } from "react-icons/lu";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
-import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { MdBookmarkBorder } from "react-icons/md";
 import { MdBookmark } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
+import { PiImage } from "react-icons/pi";
+import { HiOutlineGif } from "react-icons/hi2";
+import { HiOutlineChartBar } from "react-icons/hi2";
+import { HiOutlineEmojiHappy } from "react-icons/hi";
+import { HiMiniCalendarDays } from "react-icons/hi2";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdCancel } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Loader from "./Loader";
@@ -18,11 +22,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useGetCurrentUserDetails } from "@hooks/user";
 import { graphqlClient } from "@clients/api";
 import {
+  AddCommentMutation,
   BookmarkPostMutation,
   UnBookmarkPostMutation,
   UnLikePostMutation,
 } from "@graphql/mutation/post";
 import { LikePostMutation } from "@graphql/mutation/post";
+import toast from "react-hot-toast";
 
 interface PostProps {
   data: {
@@ -37,10 +43,13 @@ interface PostProps {
     };
     likes: { id: string }[];
     bookmarks: { id: string }[];
+    comments: {
+      id: string;
+    }[];
   };
 }
 
-const PostCard: React.FC<PostProps> = (props) => {
+const PostCard = (props: PostProps) => {
   const [loader, setLoader] = useState(false);
   const { user } = useGetCurrentUserDetails();
   const queryClient = useQueryClient();
@@ -50,11 +59,28 @@ const PostCard: React.FC<PostProps> = (props) => {
   const [like, setLike] = useState(
     data.likes.find((ele) => (user ? ele.id == user.id : null)) ? true : false
   );
+  const [commentPopup, setCommentPopup] = useState(false);
+  const [comment, setComment] = useState("");
   const [bookmark, setBookmark] = useState(
     data.bookmarks.find((ele) => (user ? ele.id == user.id : null))
       ? true
       : false
   );
+
+  const handleCommentPost = async () => {
+    try {
+      await graphqlClient.request(AddCommentMutation, {
+        postId: data.id,
+        comment: comment,
+      });
+      toast.success("Comment Added");
+      setCommentPopup(false);
+      setComment("");
+      data.comments.push({ id: user ? user.id : "" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const like_unlikePost = useCallback(
     async (like: boolean, postId: string, userId: string) => {
@@ -185,10 +211,17 @@ const PostCard: React.FC<PostProps> = (props) => {
         )}
 
         <div className="flex justify-between text-xl text-gray-500">
-          <div className="flex flex-1 justify-between relative ">
-            <span className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer">
+          <div className="flex flex-1 justify-between">
+            <span
+              onClick={() => {
+                setCommentPopup(true);
+              }}
+              className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer"
+            >
               <IoChatbubbleOutline />
-              <span className="text-sm place-content-center">201</span>
+              <span className="text-sm place-content-center">
+                {data.comments.length > 0 ? data.comments.length : ""}
+              </span>
             </span>
             <span
               className={`flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-red-700 ${
@@ -199,7 +232,9 @@ const PostCard: React.FC<PostProps> = (props) => {
               }}
             >
               {like ? <IoMdHeart /> : <IoMdHeartEmpty />}
-              <span className="text-sm">{data.likes.length}</span>
+              <span className="text-sm">
+                {data.likes.length > 0 ? data.likes.length : ""}
+              </span>
             </span>
             <span className="flex text-lg">
               <span
@@ -223,6 +258,125 @@ const PostCard: React.FC<PostProps> = (props) => {
               <RiShare2Fill />
             </span>
           </div>
+          {commentPopup ? (
+            <div className="w-full h-full flex justify-center text-white bg-black absolute top-0 left-0 z-10 glass_bg">
+              <div className="w-full h-fit flex flex-col gap-2 bg-gray-950 mx-10 mt-5 p-2 px-4 border-gray-800 border-2 rounded-2xl">
+                <span className="w-full relative">
+                  <MdCancel
+                    onClick={() => setCommentPopup(false)}
+                    className="absolute right-2 top-3 hover:text-white cursor-pointer"
+                  />
+                </span>
+                <div className="w-full mt-6 flex gap-2">
+                  <div className="w-20 flex flex-col items-center justify-between gap-2">
+                    <Image
+                      className="w-10 h-10 object-contain rounded-full cursor-pointer"
+                      src={data.author.profileImgUrl}
+                      height={100}
+                      width={100}
+                      alt="Profile Photo"
+                      placeholder="empty"
+                    />
+                    <div className="w-[2px] h-full bg-gray-700 rounded-full"></div>
+                  </div>
+                  <div className="w-full flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="text-base font-bold cursor-pointer hover:underline"
+                        onClick={() => {
+                          user?.id === data.author.id
+                            ? ""
+                            : queryClient.invalidateQueries({
+                                queryKey: ["profile-data"],
+                              });
+                          router.push(`/user/${data.author.id}`);
+                        }}
+                      >
+                        {data.author.firstName.slice(0, 1).toUpperCase() +
+                          data.author.firstName.slice(1) +
+                          " " +
+                          (data.author.lastName || "")}
+                      </span>
+                      <span className="text-sm text-gray-300 cursor-pointer">
+                        @{data.author.firstName.toLocaleLowerCase()} .{" "}
+                      </span>
+                      <span className="text-sm text-gray-300 cursor-pointer hover:underline">
+                        1 Oct
+                      </span>
+                    </div>
+                    <div className="flex text-justify text-sm cursor-pointer">
+                      {data.content}
+                    </div>
+                    {data.imageUrl ? (
+                      <div className="flex w-full justify-center pr-2 py-4">
+                        <Image
+                          className="w-fit h-48 md:h-72 object-contain rounded-xl border-[0.5px] border-slate-600"
+                          src={data.imageUrl}
+                          alt="Post Image"
+                          height={600}
+                          width={400}
+                        />
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    <div className="flex gap-1 text-gray-500 font-bold text-sm">
+                      <span>Replying to </span>
+                      <span className="text-blue-400 cursor-pointer">
+                        {" "}
+                        @{data.author.firstName.toLocaleLowerCase()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full flex gap-2">
+                  <div className="w-20 flex flex-col items-center justify-between gap-2">
+                    <Image
+                      className="w-10 h-10 object-contain rounded-full cursor-pointer"
+                      src={user ? user.profileImgUrl : ""}
+                      height={100}
+                      width={100}
+                      alt="Profile Photo"
+                      placeholder="empty"
+                    />
+                  </div>
+                  <div className="w-full flex flex-col pt-3">
+                    <textarea
+                      className="w-full bg-gray-950 text-base tracking-wide outline-none"
+                      name="comment"
+                      id="comment"
+                      placeholder="Post your reply..."
+                      rows={3}
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    ></textarea>
+                    <div className="w-full flex justify-between items-center p-1 py-2 pb-3">
+                      <div className="text-sky-400 text-base sm:text-xl flex gap-2 sm:gap-4">
+                        <PiImage className="cursor-not-allowed text-sky-700" />
+                        <HiOutlineGif className="cursor-not-allowed text-sky-700" />
+                        <HiOutlineChartBar className="cursor-not-allowed text-sky-700" />
+                        <HiOutlineEmojiHappy className="cursor-not-allowed text-sky-700" />
+                        <HiMiniCalendarDays className="cursor-not-allowed text-sky-700" />
+                        <HiOutlineLocationMarker className="cursor-not-allowed text-sky-700" />
+                      </div>
+                      <button
+                        onClick={handleCommentPost}
+                        className={` font-bold p-1 px-4 tracking-wider rounded-full ${
+                          comment.length === 0
+                            ? "cursor-not-allowed bg-sky-700"
+                            : "cursor-pointer bg-sky-600 hover:bg-sky-700"
+                        }`}
+                      >
+                        Post
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

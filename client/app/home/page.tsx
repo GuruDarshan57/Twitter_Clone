@@ -23,8 +23,8 @@ const Home: React.FC = () => {
     <X3Layout
       children={
         <>
-          <HomeTopBar />
           <div className="w-full h-full max-h-full overflow-y-scroll hidescrollbar flex flex-col">
+            <HomeTopBar />
             <CreatePost />
             {posts ? (
               posts.map((post: any) =>

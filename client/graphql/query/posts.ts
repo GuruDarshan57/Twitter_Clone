@@ -13,6 +13,9 @@ export const GetAllPostsQuery = graphql(`
       bookmarks {
         id
       }
+      comments {
+        id
+      }
       author {
         id
         email
