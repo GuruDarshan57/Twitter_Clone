@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useGetAllPosts } from "@hooks/post";
 import PostCard from "@components/PostCard";
-import HomeTopBar from "@components/HomeTopBar";
 import CreatePost from "@components/CreatePost";
 import Loader from "@components/Loader";
 import X3Layout from "@components/X3Layout";
@@ -24,7 +23,9 @@ const Home: React.FC = () => {
       children={
         <>
           <div className="w-full h-full max-h-full overflow-y-scroll hidescrollbar flex flex-col">
-            <HomeTopBar />
+            <div className="w-full p-3 pl-2 font-bold tracking-wide text-xl flex border-gray-800 border-b-[0.5px] sticky top-0 glass_bg">
+              Home
+            </div>
             <CreatePost />
             {posts ? (
               posts.map((post: any) =>

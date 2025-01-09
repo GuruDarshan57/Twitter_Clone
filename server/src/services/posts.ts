@@ -87,6 +87,10 @@ class PostsService {
     });
     return true;
   }
+
+  public static async getPost(id: string) {
+    return await prismaClient.post.findUnique({ where: { id } });
+  }
 }
 
 export default PostsService;

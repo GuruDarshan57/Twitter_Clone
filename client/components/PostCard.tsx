@@ -29,31 +29,13 @@ import {
 } from "@graphql/mutation/post";
 import { LikePostMutation } from "@graphql/mutation/post";
 import toast from "react-hot-toast";
+import { PostProps } from "@types";
+import CommentBar from "./CommentBar";
 
-interface PostProps {
-  data: {
-    id: string;
-    content: string;
-    imageUrl?: string | null;
-    author: {
-      id: string;
-      firstName: string;
-      lastName?: string | null;
-      profileImgUrl: string;
-    };
-    likes: { id: string }[];
-    bookmarks: { id: string }[];
-    comments: {
-      id: string;
-    }[];
-  };
-}
-
-const PostCard = (props: PostProps) => {
+const PostCard = ({ data }: { data: PostProps }) => {
   const [loader, setLoader] = useState(false);
   const { user } = useGetCurrentUserDetails();
   const queryClient = useQueryClient();
-  const { data } = props;
   const router = useRouter();
   const [pre, setPre] = useState(false);
   const [like, setLike] = useState(
@@ -67,8 +49,9 @@ const PostCard = (props: PostProps) => {
       : false
   );
 
-  const handleCommentPost = async () => {
+  const handlePostComment = async () => {
     try {
+      if (comment.length === 0) return toast.error("Comment can't be empty");
       await graphqlClient.request(AddCommentMutation, {
         postId: data.id,
         comment: comment,
@@ -76,7 +59,7 @@ const PostCard = (props: PostProps) => {
       toast.success("Comment Added");
       setCommentPopup(false);
       setComment("");
-      data.comments.push({ id: user ? user.id : "" });
+      data.comments.push({ id: "123", author: {} });
     } catch (err) {
       console.log(err);
     }
@@ -112,6 +95,9 @@ const PostCard = (props: PostProps) => {
             <Loader />
           ) : (
             <Image
+              onClick={() => {
+                router.push(`/user/${data.author.id}`);
+              }}
               className="w-10 h-10 object-contain rounded-full cursor-pointer"
               src={data.author.profileImgUrl}
               height={100}
@@ -126,18 +112,13 @@ const PostCard = (props: PostProps) => {
       </div>
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <span
-              className="text-base font-bold cursor-pointer hover:underline"
-              onClick={() => {
-                user?.id === data.author.id
-                  ? ""
-                  : queryClient.invalidateQueries({
-                      queryKey: ["profile-data"],
-                    });
-                router.push(`/user/${data.author.id}`);
-              }}
-            >
+          <div
+            className="flex items-center gap-2"
+            onClick={() => {
+              router.push(`/user/${data.author.id}`);
+            }}
+          >
+            <span className="text-base font-bold cursor-pointer hover:underline">
               {data.author.firstName.slice(0, 1).toUpperCase() +
                 data.author.firstName.slice(1) +
                 " " +
@@ -154,7 +135,10 @@ const PostCard = (props: PostProps) => {
             <IoIosMore />
           </div>
         </div>
-        <div className="flex text-justify text-sm cursor-pointer">
+        <div
+          className="flex text-justify text-sm cursor-pointer"
+          onClick={() => router.push(`/post/${data.id}`)}
+        >
           {data.content}
         </div>
 
@@ -268,7 +252,7 @@ const PostCard = (props: PostProps) => {
                   />
                 </span>
                 <div className="w-full mt-6 flex gap-2">
-                  <div className="w-20 flex flex-col items-center justify-between gap-2">
+                  <div className="w-12 flex flex-col items-center justify-between gap-2">
                     <Image
                       className="w-10 h-10 object-contain rounded-full cursor-pointer"
                       src={data.author.profileImgUrl}
@@ -304,7 +288,10 @@ const PostCard = (props: PostProps) => {
                         1 Oct
                       </span>
                     </div>
-                    <div className="flex text-justify text-sm cursor-pointer">
+                    <div
+                      className="flex text-justify text-sm cursor-pointer"
+                      onClick={() => router.push(`/post/${data.id}`)}
+                    >
                       {data.content}
                     </div>
                     {data.imageUrl ? (
@@ -329,49 +316,12 @@ const PostCard = (props: PostProps) => {
                     </div>
                   </div>
                 </div>
-                <div className="w-full flex gap-2">
-                  <div className="w-20 flex flex-col items-center justify-between gap-2">
-                    <Image
-                      className="w-10 h-10 object-contain rounded-full cursor-pointer"
-                      src={user ? user.profileImgUrl : ""}
-                      height={100}
-                      width={100}
-                      alt="Profile Photo"
-                      placeholder="empty"
-                    />
-                  </div>
-                  <div className="w-full flex flex-col pt-3">
-                    <textarea
-                      className="w-full bg-gray-950 text-base tracking-wide outline-none"
-                      name="comment"
-                      id="comment"
-                      placeholder="Post your reply..."
-                      rows={3}
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
-                    ></textarea>
-                    <div className="w-full flex justify-between items-center p-1 py-2 pb-3">
-                      <div className="text-sky-400 text-base sm:text-xl flex gap-2 sm:gap-4">
-                        <PiImage className="cursor-not-allowed text-sky-700" />
-                        <HiOutlineGif className="cursor-not-allowed text-sky-700" />
-                        <HiOutlineChartBar className="cursor-not-allowed text-sky-700" />
-                        <HiOutlineEmojiHappy className="cursor-not-allowed text-sky-700" />
-                        <HiMiniCalendarDays className="cursor-not-allowed text-sky-700" />
-                        <HiOutlineLocationMarker className="cursor-not-allowed text-sky-700" />
-                      </div>
-                      <button
-                        onClick={handleCommentPost}
-                        className={` font-bold p-1 px-4 tracking-wider rounded-full ${
-                          comment.length === 0
-                            ? "cursor-not-allowed bg-sky-700"
-                            : "cursor-pointer bg-sky-600 hover:bg-sky-700"
-                        }`}
-                      >
-                        Post
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <CommentBar
+                  postId={data.id}
+                  comment={comment}
+                  setComment={setComment}
+                  handleCommentPost={handlePostComment}
+                />
               </div>
             </div>
           ) : (

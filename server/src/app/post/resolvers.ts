@@ -95,6 +95,14 @@ const queries = {
 
     return signedURL;
   },
+  getPost: async (
+    parent: any,
+    { id }: { id: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    return PostsService.getPost(id);
+  },
 };
 
 const extraResolver = {

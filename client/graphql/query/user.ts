@@ -54,6 +54,9 @@ export const getUserDataQuery = graphql(`
         bookmarks {
           id
         }
+        comments {
+          id
+        }
       }
     }
   }

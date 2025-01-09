@@ -33,3 +33,37 @@ export const GetSignedURLQuery = graphql(`
     getSignedURL(imageName: $imageName, imageType: $imageType)
   }
 `);
+
+export const getPostQuery = graphql(`
+  #graphql
+  query getPost($getPostId: ID!) {
+    getPost(id: $getPostId) {
+      id
+      content
+      imageUrl
+      likes {
+        id
+      }
+      bookmarks {
+        id
+      }
+      comments {
+        id
+        comment
+        author {
+          id
+          firstName
+          lastName
+          profileImgUrl
+        }
+      }
+      author {
+        id
+        email
+        firstName
+        lastName
+        profileImgUrl
+      }
+    }
+  }
+`);
