@@ -1,5 +1,7 @@
 import { graphql } from "../../gql";
 
+//GraphQL queries related to user
+
 export const verifyUserGoogleTokenQuery = graphql(`
   query verifyUserGoogleTokenQuery($token: String!) {
     verifyGoogleToken(token: $token)

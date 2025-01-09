@@ -8,12 +8,6 @@ import { IoMdHeart } from "react-icons/io";
 import { MdBookmarkBorder } from "react-icons/md";
 import { MdBookmark } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
-import { PiImage } from "react-icons/pi";
-import { HiOutlineGif } from "react-icons/hi2";
-import { HiOutlineChartBar } from "react-icons/hi2";
-import { HiOutlineEmojiHappy } from "react-icons/hi";
-import { HiMiniCalendarDays } from "react-icons/hi2";
-import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdCancel } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Loader from "./Loader";
@@ -33,14 +27,10 @@ import { PostProps } from "@types";
 import CommentBar from "./CommentBar";
 
 const PostCard = ({ data }: { data: PostProps }) => {
-  const [loader, setLoader] = useState(false);
   const { user } = useGetCurrentUserDetails();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const [pre, setPre] = useState(false);
-  const [like, setLike] = useState(
-    data.likes.find((ele) => (user ? ele.id == user.id : null)) ? true : false
-  );
+  const [imgPreview, setimgPreview] = useState(false);
   const [commentPopup, setCommentPopup] = useState(false);
   const [comment, setComment] = useState("");
   const [bookmark, setBookmark] = useState(
@@ -48,7 +38,11 @@ const PostCard = ({ data }: { data: PostProps }) => {
       ? true
       : false
   );
+  const [like, setLike] = useState(
+    data.likes.find((ele) => (user ? ele.id == user.id : null)) ? true : false
+  );
 
+  //add's comment over post
   const handlePostComment = async () => {
     try {
       if (comment.length === 0) return toast.error("Comment can't be empty");
@@ -65,6 +59,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
     }
   };
 
+  //like's and unlike's post
   const like_unlikePost = useCallback(
     async (like: boolean, postId: string, userId: string) => {
       like
@@ -78,6 +73,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
     []
   );
 
+  //bookmark's and unbookmark's post
   const bookmark_unbookmarkPost = useCallback(
     async (bookmark: boolean, postId: string, userId: string) => {
       bookmark
@@ -91,21 +87,17 @@ const PostCard = ({ data }: { data: PostProps }) => {
     <div className="w-full flex gap-4 p-2 pr-4 border-b-2 border-gray-800 text-gray-200 tracking-wide hover:bg-gray-950">
       <div className="w-fit flex justify-center items-start">
         {data.author.profileImgUrl ? (
-          loader ? (
-            <Loader />
-          ) : (
-            <Image
-              onClick={() => {
-                router.push(`/user/${data.author.id}`);
-              }}
-              className="w-10 h-10 object-contain rounded-full cursor-pointer"
-              src={data.author.profileImgUrl}
-              height={100}
-              width={100}
-              alt="Profile Photo"
-              placeholder="empty"
-            />
-          )
+          <Image
+            onClick={() => {
+              router.push(`/user/${data.author.id}`);
+            }}
+            className="w-10 h-10 object-contain rounded-full cursor-pointer"
+            src={data.author.profileImgUrl}
+            height={100}
+            width={100}
+            alt="Profile Photo"
+            placeholder="empty"
+          />
         ) : (
           ""
         )}
@@ -151,15 +143,15 @@ const PostCard = ({ data }: { data: PostProps }) => {
               height={600}
               width={400}
               onClick={() => {
-                setPre(true);
+                setimgPreview(true);
               }}
             />
-            {pre ? (
+            {imgPreview ? (
               <div className="h-full w-full flex flex-col justify-center items-center bg-black absolute top-0 left-0 z-10 glass_bg">
                 <span
                   className="w-full flex relative"
                   onClick={() => {
-                    setPre(false);
+                    setimgPreview(false);
                   }}
                 >
                   <MdCancel className="absolute right-5 bottom-2" />
@@ -172,7 +164,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
                     height={600}
                     width={400}
                     onClick={() => {
-                      setPre(true);
+                      setimgPreview(true);
                     }}
                   />
                 </div>
@@ -239,12 +231,19 @@ const PostCard = ({ data }: { data: PostProps }) => {
               </span>
             </span>
             <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer text-lg">
-              <RiShare2Fill />
+              <RiShare2Fill
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    window.location.origin + `/post/${data.id}`
+                  );
+                  toast.success("Copied to clipboard");
+                }}
+              />
             </span>
           </div>
           {commentPopup ? (
             <div className="w-full h-full flex justify-center text-white bg-black absolute top-0 left-0 z-10 glass_bg">
-              <div className="w-full h-fit flex flex-col gap-2 bg-gray-950 mx-10 mt-5 p-2 px-4 border-gray-800 border-2 rounded-2xl">
+              <div className="w-full h-fit flex flex-col gap-2 bg-gray-950 mx-4 sm:mx-10 mt-5 px-4 border-gray-800 border-2 rounded-2xl">
                 <span className="w-full relative">
                   <MdCancel
                     onClick={() => setCommentPopup(false)}

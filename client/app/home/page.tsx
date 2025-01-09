@@ -1,12 +1,12 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { useGetAllPosts } from "@hooks/post";
+import React, { useEffect, useState } from "react";
 import PostCard from "@components/PostCard";
 import CreatePost from "@components/CreatePost";
 import Loader from "@components/Loader";
 import X3Layout from "@components/X3Layout";
 import { useRouter } from "next/navigation";
 import { useGetCurrentUserDetails } from "@hooks/user";
+import { useGetAllPosts } from "@hooks/post";
 
 const Home: React.FC = () => {
   const { user } = useGetCurrentUserDetails();

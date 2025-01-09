@@ -1,5 +1,7 @@
 import { graphql } from "@gql";
 
+//GraphQL mutations related to post
+
 export const createPostMutation = graphql(`
   #graphql
   mutation CreatePost($payload: PostData!) {

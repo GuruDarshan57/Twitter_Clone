@@ -20,6 +20,7 @@ const CreatePost = () => {
   const { mutate } = useCreatePost();
   const [imagePath, setImagePath] = useState("");
 
+  //create's post
   const handleCreatePost = useCallback(() => {
     if (content.length < 2) return toast.error("Please enter some text");
     if (content.length > 280)
@@ -29,6 +30,7 @@ const CreatePost = () => {
     setImagePath("");
   }, [mutate, content]);
 
+  //handle's image input change
   const handleImageInputChange = useCallback((input: HTMLInputElement) => {
     return async (event: Event) => {
       event.preventDefault();
@@ -54,6 +56,7 @@ const CreatePost = () => {
     };
   }, []);
 
+  //create input tag and a click event listener to handle image input
   const handleImageInput = useCallback(() => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");

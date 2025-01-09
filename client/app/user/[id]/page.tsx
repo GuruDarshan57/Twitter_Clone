@@ -34,6 +34,7 @@ const page = ({ params }: Props) => {
     fetchData();
   }, []);
 
+  //fetches user data by id
   const fetchData = async () => {
     const { getUserData } = await graphqlClient.request(getUserDataQuery, {
       getUserDataId: params.id,
@@ -50,6 +51,7 @@ const page = ({ params }: Props) => {
     return following ? true : false;
   }, [profileData]);
 
+  //to follow or unfollow the profile owner
   const handleFollowUnfollow = async (
     followingId: string,
     followerId: string

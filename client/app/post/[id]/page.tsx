@@ -1,18 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { GoArrowLeft } from "react-icons/go";
-import { useRouter } from "next/navigation";
-import { useGetCurrentUserDetails } from "@hooks/user";
-import { graphqlClient } from "@clients/api";
+import PostCard from "@components/PostCard";
+import CommentBar from "@components/CommentBar";
 import X3Layout from "@components/X3Layout";
 import Loader from "@components/Loader";
-import { getPostQuery } from "@graphql/query/posts";
-import PostCard from "@components/PostCard";
-import { PostProps } from "@types";
-import CommentBar from "@components/CommentBar";
-import { AddCommentMutation } from "@graphql/mutation/post";
-import toast from "react-hot-toast";
 import CommentCard from "@components/CommentCard";
+import toast from "react-hot-toast";
+import { graphqlClient } from "@clients/api";
+import { useRouter } from "next/navigation";
+import { useGetCurrentUserDetails } from "@hooks/user";
+import { getPostQuery } from "@graphql/query/posts";
+import { AddCommentMutation } from "@graphql/mutation/post";
+import { PostProps } from "@types";
 
 interface Props {
   params: {
@@ -30,6 +30,7 @@ const page = ({ params }: Props) => {
     fetchData();
   }, []);
 
+  //fetches post by id
   const fetchData = async () => {
     const { getPost } = await graphqlClient.request(getPostQuery, {
       getPostId: params.id,
@@ -37,6 +38,7 @@ const page = ({ params }: Props) => {
     setPostData(getPost as PostProps);
   };
 
+  //adds comment over post
   const handlePostComment = async () => {
     try {
       if (comment.length === 0) return toast.error("Comment cannot be empty");

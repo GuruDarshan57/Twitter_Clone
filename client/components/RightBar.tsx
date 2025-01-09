@@ -14,6 +14,8 @@ import { IoSearchOutline } from "react-icons/io5";
 const RightBar = () => {
   const { user } = useGetCurrentUserDetails();
   const queryClient = useQueryClient();
+
+  //google login handler
   const handleLoginWithGoogle = useCallback(
     async (cred: CredentialResponse) => {
       const googleToken = cred.credential;

@@ -1,5 +1,7 @@
 import { graphql } from "../../gql";
 
+//GraphQL queries related to post
+
 export const GetAllPostsQuery = graphql(`
   #graphql
   query GetAllPosts {

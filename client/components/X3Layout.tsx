@@ -3,11 +3,7 @@ import Letfbar from "./Leftbar";
 import MobileNavbar from "./MobileNavbar";
 import RightBar from "./RightBar";
 
-interface Props {
-  children: JSX.Element;
-}
-
-const X3Layout = ({ children }: Props) => {
+const X3Layout = ({ children }: { children: JSX.Element }) => {
   return (
     <div className="w-full h-full px-0 lg:px-8 xl:px-14 2xl:px-28 grid grid-cols-10">
       <div className="h-full hidden mobile:inline mobile:col-span-2">

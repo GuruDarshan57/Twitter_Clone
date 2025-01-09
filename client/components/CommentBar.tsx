@@ -1,4 +1,3 @@
-import { useGetCurrentUserDetails } from "@hooks/user";
 import React from "react";
 import { PiImage } from "react-icons/pi";
 import { HiOutlineGif } from "react-icons/hi2";
@@ -7,6 +6,7 @@ import { HiOutlineEmojiHappy } from "react-icons/hi";
 import { HiMiniCalendarDays } from "react-icons/hi2";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import Image from "@node_modules/next/image";
+import { useGetCurrentUserDetails } from "@hooks/user";
 
 const CommentBar = ({
   postId,
@@ -43,7 +43,7 @@ const CommentBar = ({
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
         <div className="w-full flex justify-between items-center p-1 py-2 pb-3">
-          <div className="text-sky-400 text-base sm:text-xl flex gap-2 sm:gap-4">
+          <div className="text-sky-400 text-lg sm:text-xl flex gap-2 sm:gap-4">
             <PiImage className="cursor-not-allowed text-sky-700" />
             <HiOutlineGif className="cursor-not-allowed text-sky-700" />
             <HiOutlineChartBar className="cursor-not-allowed text-sky-700" />

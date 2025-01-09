@@ -17,7 +17,7 @@ const CommentCard = ({
       <div className="w-fit flex justify-center items-start">
         <Image
           onClick={() => {
-            router.push(`/user/${comment.author}`);
+            router.push(`/user/${comment.author.id}`);
           }}
           className="w-10 h-10 object-contain rounded-full cursor-pointer"
           src={comment.author.profileImgUrl ? comment.author.profileImgUrl : ""}

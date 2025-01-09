@@ -17,6 +17,8 @@ const Page = () => {
   const Router = useRouter();
 
   const queryClient = useQueryClient();
+
+  //google login handler
   const handleLoginWithGoogle = useCallback(
     async (cred: CredentialResponse) => {
       const googleToken = cred.credential;

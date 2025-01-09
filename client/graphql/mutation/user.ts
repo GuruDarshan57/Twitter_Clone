@@ -1,4 +1,5 @@
 import { graphql } from "@gql";
+//GraphQL mutations related to user
 
 export const FollowUserMutation = `#graphql
 mutation Mutation($to: String!) {
