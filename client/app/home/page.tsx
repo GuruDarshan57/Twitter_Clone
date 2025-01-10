@@ -23,7 +23,7 @@ const Home: React.FC = () => {
       children={
         <>
           <div className="w-full h-full max-h-full overflow-y-scroll hidescrollbar flex flex-col">
-            <div className="w-full p-3 pl-2 font-bold tracking-wide text-xl flex border-gray-800 border-b-[0.5px] sticky top-0 glass_bg">
+            <div className="w-full p-4 pl-2.5 font-bold tracking-wide text-xl flex border-gray-800 border-b-[0.5px] sticky top-0 glass_bg">
               Home
             </div>
             <CreatePost />

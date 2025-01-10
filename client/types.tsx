@@ -2,6 +2,7 @@ export interface PostProps {
   id: string;
   content: string;
   imageUrl?: string | null;
+  createdAt: string;
   author: {
     id: string;
     firstName: string;
@@ -13,6 +14,7 @@ export interface PostProps {
   comments: {
     id: string;
     comment?: string;
+    createdAt?: string;
     author: {
       id?: string;
       firstName?: string;
@@ -24,11 +26,12 @@ export interface PostProps {
 
 export interface Comment {
   id: string;
-  comment?: string;
+  comment: string;
+  createdAt: string;
   author: {
-    id?: string;
-    firstName?: string;
-    lastName?: string;
-    profileImgUrl?: string;
+    id: string;
+    firstName: string;
+    lastName: string;
+    profileImgUrl: string;
   };
 }

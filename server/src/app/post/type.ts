@@ -11,11 +11,13 @@ export const types = `#graphql
     likes:[User]
     bookmarks:[User]
     comments:[Comment]
+    createdAt:String
   }
   type Comment{
     id:String
     post:Post
     author:User
     comment:String
+    createdAt:String
   }
 `;

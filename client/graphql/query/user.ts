@@ -50,6 +50,7 @@ export const getUserDataQuery = graphql(`
         id
         content
         imageUrl
+        createdAt
         likes {
           id
         }

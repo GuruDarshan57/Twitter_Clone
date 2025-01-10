@@ -105,7 +105,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex justify-between items-center">
           <div
-            className="flex items-center gap-2"
+            className="flex items-center gap-2.5"
             onClick={() => {
               router.push(`/user/${data.author.id}`);
             }}
@@ -116,11 +116,13 @@ const PostCard = ({ data }: { data: PostProps }) => {
                 " " +
                 (data.author.lastName || "")}
             </span>
-            <span className="text-sm text-gray-300 cursor-pointer">
+            <span className="text-sm tracking-wider text-gray-500 cursor-pointer">
               @{data.author.firstName.toLocaleLowerCase()} .{" "}
             </span>
-            <span className="text-sm text-gray-300 cursor-pointer hover:underline">
-              1 Oct
+            <span className="text-sm tracking-wide text-gray-500 hover:underline">
+              {new Date(parseInt(data.createdAt)).toString().slice(4, 10) +
+                ", " +
+                new Date(parseInt(data.createdAt)).toString().slice(11, 15)}
             </span>
           </div>
           <div className="text-xl text-gray-300 cursor-pointer hover:bg-blue-950 p-1 rounded-xl">
@@ -192,7 +194,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
               onClick={() => {
                 setCommentPopup(true);
               }}
-              className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer"
+              className="flex gap-2 items-center text-lg hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer relative -left-2.5"
             >
               <IoChatbubbleOutline />
               <span className="text-sm place-content-center">
@@ -230,7 +232,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
                 )}
               </span>
             </span>
-            <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer text-lg">
+            <span className="hover:bg-gray-900 hover:text-blue-500 p-1 px-2 rounded-full cursor-pointer text-lg relative left-1">
               <RiShare2Fill
                 onClick={() => {
                   navigator.clipboard.writeText(
@@ -243,7 +245,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
           </div>
           {commentPopup ? (
             <div className="w-full h-full flex justify-center text-white bg-black absolute top-0 left-0 z-10 glass_bg">
-              <div className="w-full h-fit flex flex-col gap-2 bg-gray-950 mx-4 sm:mx-10 mt-5 px-4 border-gray-800 border-2 rounded-2xl">
+              <div className="w-full h-fit flex flex-col gap-2 bg-black mx-4 sm:mx-10 mt-5 px-4 border-gray-800 border-2 rounded-2xl">
                 <span className="w-full relative">
                   <MdCancel
                     onClick={() => setCommentPopup(false)}

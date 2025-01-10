@@ -9,6 +9,7 @@ export const GetAllPostsQuery = graphql(`
       id
       content
       imageUrl
+      createdAt
       likes {
         id
       }
@@ -43,6 +44,7 @@ export const getPostQuery = graphql(`
       id
       content
       imageUrl
+      createdAt
       likes {
         id
       }
@@ -52,6 +54,7 @@ export const getPostQuery = graphql(`
       comments {
         id
         comment
+        createdAt
         author {
           id
           firstName

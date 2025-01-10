@@ -34,7 +34,7 @@ const CommentBar = ({
       </div>
       <div className="w-full flex flex-col">
         <textarea
-          className="w-full bg-gray-950 p-1 text-base tracking-wide outline-none"
+          className="w-full bg-black p-1 text-base tracking-wide outline-none rounded-xl"
           name="comment"
           id="comment"
           placeholder="Post your reply ..."
