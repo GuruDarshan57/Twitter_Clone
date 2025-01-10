@@ -24,7 +24,7 @@ const CommentCard = ({
             router.push(`/user/${comment.author.id}`);
           }}
           className="w-10 h-10 object-contain rounded-full cursor-pointer"
-          src={comment.author.profileImgUrl}
+          src={comment.author.profileImgUrl ? comment.author.profileImgUrl : ""}
           height={100}
           width={100}
           alt="Profile Photo"
@@ -51,9 +51,13 @@ const CommentCard = ({
               @{comment.author.firstName?.toLocaleLowerCase()} .{" "}
             </span>
             <span className="text-sm tracking-wide text-gray-500 cursor-pointer hover:underline">
-              {new Date(parseInt(comment.createdAt)).toString().slice(4, 10) +
+              {new Date(parseInt(comment.createdAt ? comment.createdAt : ""))
+                .toString()
+                .slice(4, 10) +
                 ", " +
-                new Date(parseInt(comment.createdAt)).toString().slice(11, 15)}
+                new Date(parseInt(comment.createdAt ? comment.createdAt : ""))
+                  .toString()
+                  .slice(11, 15)}
             </span>
           </div>
           <div className="text-xl text-gray-300 cursor-pointer hover:bg-blue-950 p-1 rounded-xl">

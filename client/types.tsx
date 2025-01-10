@@ -26,12 +26,12 @@ export interface PostProps {
 
 export interface Comment {
   id: string;
-  comment: string;
-  createdAt: string;
+  comment?: string;
+  createdAt?: string;
   author: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    profileImgUrl: string;
+    id?: string;
+    firstName?: string;
+    lastName?: string;
+    profileImgUrl?: string;
   };
 }
