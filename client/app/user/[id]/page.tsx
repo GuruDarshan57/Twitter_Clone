@@ -121,8 +121,8 @@ const page = ({ params }: Props) => {
                 </div>
                 <Image
                   src={profileData?.profileImgUrl}
-                  width={400}
-                  height={400}
+                  width={1000}
+                  height={1000}
                   alt="profile_img"
                   className="w-32 h-32 rounded-full object-contain -mt-16 ml-4 border-4 border-black"
                 />

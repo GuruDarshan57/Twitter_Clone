@@ -1,4 +1,5 @@
 "use client";
+import "animate.css";
 import React, { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import { IoIosMore } from "react-icons/io";
@@ -32,6 +33,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
   const router = useRouter();
   const [imgPreview, setimgPreview] = useState(false);
   const [commentPopup, setCommentPopup] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const [comment, setComment] = useState("");
   const [bookmark, setBookmark] = useState(
     data.bookmarks.find((ele) => (user ? ele.id == user.id : null))
@@ -125,8 +127,20 @@ const PostCard = ({ data }: { data: PostProps }) => {
                 new Date(parseInt(data.createdAt)).toString().slice(11, 15)}
             </span>
           </div>
-          <div className="text-xl text-gray-300 cursor-pointer hover:bg-blue-950 p-1 rounded-xl">
-            <IoIosMore />
+          <div className="text-xl text-gray-300 cursor-pointer  p-1 rounded-xl relative">
+            <IoIosMore
+              className="hover:bg-blue-950 rounded-xl"
+              onClick={() => {
+                setShowMore(!showMore);
+              }}
+            />
+            <div
+              className={`border-2 w-fit border-gray-700 text-sm bg-black p-1.5 px-2 rounded-lg absolute top-7 -right-1 z-10 ${
+                showMore ? "flex text-nowrap" : "hidden"
+              }`}
+            >
+              {user?.id === data.author.id ? "Delete Post" : "Follow Guru"}
+            </div>
           </div>
         </div>
         <div
@@ -149,7 +163,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
               }}
             />
             {imgPreview ? (
-              <div className="h-full w-full flex flex-col justify-center items-center bg-black absolute top-0 left-0 z-10 glass_bg">
+              <div className="h-full w-full flex flex-col justify-center items-center bg-black absolute top-0 left-0 z-10 glass_bg animate__animated animate__fadeIn">
                 <span
                   className="w-full flex relative"
                   onClick={() => {
