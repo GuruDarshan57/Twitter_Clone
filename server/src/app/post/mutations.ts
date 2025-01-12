@@ -4,4 +4,6 @@ export const mutations = `#graphql
   unlikePost(postId:String!):Boolean
   bookmarkPost(postId:String!):Boolean
   unbookmarkPost(postId:String!):Boolean
-  addComment(postId:String!,comment:String!):Boolean`;
+  addComment(postId:String!,comment:String!):Boolean
+  deletePost(postId:String):Boolean
+  deleteComment(commentId:String):Boolean`;

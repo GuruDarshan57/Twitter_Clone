@@ -67,6 +67,22 @@ const mutations = {
     const userId = contextValue.user.id;
     return PostsService.addComment(postId, comment, userId);
   },
+  deletePost: async (
+    parent: any,
+    { postId }: { postId: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    return PostsService.deletePost(postId);
+  },
+  deleteComment: async (
+    parent: any,
+    { commentId }: { commentId: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    return PostsService.deleteComment(commentId);
+  },
 };
 
 const queries = {

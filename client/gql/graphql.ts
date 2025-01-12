@@ -16,129 +16,9 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type Comment = {
-  __typename?: 'Comment';
-  author?: Maybe<User>;
-  comment?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  post?: Maybe<Post>;
-};
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  addComment?: Maybe<Scalars['Boolean']['output']>;
-  bookmarkPost?: Maybe<Scalars['Boolean']['output']>;
-  createPost?: Maybe<Post>;
-  followUser?: Maybe<Scalars['Boolean']['output']>;
-  likePost?: Maybe<Scalars['Boolean']['output']>;
-  unFollowUser?: Maybe<Scalars['Boolean']['output']>;
-  unbookmarkPost?: Maybe<Scalars['Boolean']['output']>;
-  unlikePost?: Maybe<Scalars['Boolean']['output']>;
-};
-
-
-export type MutationAddCommentArgs = {
-  comment: Scalars['String']['input'];
-  postId: Scalars['String']['input'];
-};
-
-
-export type MutationBookmarkPostArgs = {
-  postId: Scalars['String']['input'];
-};
-
-
-export type MutationCreatePostArgs = {
-  payload: PostData;
-};
-
-
-export type MutationFollowUserArgs = {
-  to: Scalars['String']['input'];
-};
-
-
-export type MutationLikePostArgs = {
-  postId: Scalars['String']['input'];
-};
-
-
-export type MutationUnFollowUserArgs = {
-  to: Scalars['String']['input'];
-};
-
-
-export type MutationUnbookmarkPostArgs = {
-  postId: Scalars['String']['input'];
-};
-
-
-export type MutationUnlikePostArgs = {
-  postId: Scalars['String']['input'];
-};
-
-export type Post = {
-  __typename?: 'Post';
-  author: User;
-  bookmarks?: Maybe<Array<Maybe<User>>>;
-  comments?: Maybe<Array<Maybe<Comment>>>;
-  content: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  likes?: Maybe<Array<Maybe<User>>>;
-};
-
 export type PostData = {
   content: Scalars['String']['input'];
   imageUrl?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  getAllPosts?: Maybe<Array<Maybe<Post>>>;
-  getCurrentUserData?: Maybe<User>;
-  getPost?: Maybe<Post>;
-  getSignedURL?: Maybe<Scalars['String']['output']>;
-  getUserData?: Maybe<User>;
-  verifyGoogleToken?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type QueryGetPostArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type QueryGetSignedUrlArgs = {
-  imageName: Scalars['String']['input'];
-  imageType: Scalars['String']['input'];
-};
-
-
-export type QueryGetUserDataArgs = {
-  id: Scalars['String']['input'];
-};
-
-
-export type QueryVerifyGoogleTokenArgs = {
-  token: Scalars['String']['input'];
-};
-
-export type User = {
-  __typename?: 'User';
-  bookmarkedPosts?: Maybe<Array<Maybe<Post>>>;
-  email: Scalars['String']['output'];
-  firstName: Scalars['String']['output'];
-  followers?: Maybe<Array<Maybe<User>>>;
-  following?: Maybe<Array<Maybe<User>>>;
-  id: Scalars['ID']['output'];
-  lastName?: Maybe<Scalars['String']['output']>;
-  likedPosts?: Maybe<Array<Maybe<Post>>>;
-  posts?: Maybe<Array<Maybe<Post>>>;
-  profileImgUrl: Scalars['String']['output'];
-  recommendedUsers?: Maybe<Array<Maybe<User>>>;
 };
 
 export type CreatePostMutationVariables = Exact<{
@@ -178,7 +58,7 @@ export type VerifyUserGoogleTokenQueryQuery = { __typename?: 'Query', verifyGoog
 export type GetCurrentUserDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserDataQuery = { __typename?: 'Query', getCurrentUserData?: { __typename?: 'User', id: string, email: string, firstName: string, lastName?: string | null, profileImgUrl: string, likedPosts?: Array<{ __typename?: 'Post', id: string } | null> | null, recommendedUsers?: Array<{ __typename?: 'User', id: string, firstName: string, lastName?: string | null, profileImgUrl: string } | null> | null } | null };
+export type GetCurrentUserDataQuery = { __typename?: 'Query', getCurrentUserData?: { __typename?: 'User', id: string, email: string, firstName: string, lastName?: string | null, profileImgUrl: string, likedPosts?: Array<{ __typename?: 'Post', id: string } | null> | null, following?: Array<{ __typename?: 'User', id: string } | null> | null, recommendedUsers?: Array<{ __typename?: 'User', id: string, firstName: string, lastName?: string | null, profileImgUrl: string } | null> | null } | null };
 
 export type GetUserDataQueryVariables = Exact<{
   getUserDataId: Scalars['String']['input'];
@@ -193,5 +73,5 @@ export const GetAllPostsDocument = {"kind":"Document","definitions":[{"kind":"Op
 export const QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Query"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"imageName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"imageType"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getSignedURL"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"imageName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"imageName"}}},{"kind":"Argument","name":{"kind":"Name","value":"imageType"},"value":{"kind":"Variable","name":{"kind":"Name","value":"imageType"}}}]}]}}]} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;
 export const GetPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getPostId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getPostId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"likes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bookmarks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"comments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"profileImgUrl"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"profileImgUrl"}}]}}]}}]}}]} as unknown as DocumentNode<GetPostQuery, GetPostQueryVariables>;
 export const VerifyUserGoogleTokenQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"verifyUserGoogleTokenQuery"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyGoogleToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}]}]}}]} as unknown as DocumentNode<VerifyUserGoogleTokenQueryQuery, VerifyUserGoogleTokenQueryQueryVariables>;
-export const GetCurrentUserDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getCurrentUserData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUserData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"profileImgUrl"}},{"kind":"Field","name":{"kind":"Name","value":"likedPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"recommendedUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"profileImgUrl"}}]}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserDataQuery, GetCurrentUserDataQueryVariables>;
+export const GetCurrentUserDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getCurrentUserData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUserData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"profileImgUrl"}},{"kind":"Field","name":{"kind":"Name","value":"likedPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"following"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"recommendedUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"profileImgUrl"}}]}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserDataQuery, GetCurrentUserDataQueryVariables>;
 export const GetUserDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getUserData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getUserDataId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserData"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getUserDataId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"profileImgUrl"}},{"kind":"Field","name":{"kind":"Name","value":"followers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"following"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"likedPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"likes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"bookmarks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"comments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetUserDataQuery, GetUserDataQueryVariables>;

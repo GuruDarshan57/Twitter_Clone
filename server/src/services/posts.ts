@@ -88,8 +88,21 @@ class PostsService {
     return true;
   }
 
+  //return post by id
   public static async getPost(id: string) {
     return await prismaClient.post.findUnique({ where: { id } });
+  }
+
+  //delete post
+  public static async deletePost(postId: string) {
+    await prismaClient.post.delete({ where: { id: postId } });
+    return true;
+  }
+
+  //delete post
+  public static async deleteComment(commentId: string) {
+    await prismaClient.comments.delete({ where: { id: commentId } });
+    return true;
   }
 }
 

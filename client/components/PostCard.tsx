@@ -11,7 +11,6 @@ import { MdBookmark } from "react-icons/md";
 import { RiShare2Fill } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import Loader from "./Loader";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetCurrentUserDetails } from "@hooks/user";
@@ -19,6 +18,7 @@ import { graphqlClient } from "@clients/api";
 import {
   AddCommentMutation,
   BookmarkPostMutation,
+  DeletePostMutation,
   UnBookmarkPostMutation,
   UnLikePostMutation,
 } from "@graphql/mutation/post";
@@ -26,6 +26,10 @@ import { LikePostMutation } from "@graphql/mutation/post";
 import toast from "react-hot-toast";
 import { PostProps } from "@types";
 import CommentBar from "./CommentBar";
+import {
+  FollowUserMutation,
+  UnFollowUserMutation,
+} from "@graphql/mutation/user";
 
 const PostCard = ({ data }: { data: PostProps }) => {
   const { user } = useGetCurrentUserDetails();
@@ -35,6 +39,8 @@ const PostCard = ({ data }: { data: PostProps }) => {
   const [commentPopup, setCommentPopup] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [comment, setComment] = useState("");
+  const [follow, setFollow] = useState(false);
+
   const [bookmark, setBookmark] = useState(
     data.bookmarks.find((ele) => (user ? ele.id == user.id : null))
       ? true
@@ -85,6 +91,42 @@ const PostCard = ({ data }: { data: PostProps }) => {
     },
     []
   );
+
+  //delete's post
+  const handleDeletePost = async () => {
+    try {
+      await graphqlClient.request(DeletePostMutation, { postId: data.id });
+      toast.success("Post Deleted Successfully");
+      setShowMore(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //determines if user is following the author of the post
+  const amIfollowing = useMemo(() => {
+    const following = user?.following?.find((ele) =>
+      ele ? ele.id == data.author.id : null
+    );
+    setFollow(following ? true : false);
+    if (following) return true;
+    return false;
+  }, [user]);
+
+  //follow's and unfollow's the author of the post
+  const followUnfollow = async (followingId: string, followerId: string) => {
+    follow
+      ? await graphqlClient.request(UnFollowUserMutation, {
+          to: followingId,
+        })
+      : await graphqlClient.request(FollowUserMutation, {
+          to: followingId,
+        });
+    toast.success(
+      `${follow ? "Unfollowed" : "Followed"} ${data.author.firstName}`
+    );
+    setFollow((e) => !e);
+  };
   return (
     <div className="w-full flex gap-4 p-2 pr-4 border-b-2 border-gray-800 text-gray-200 tracking-wide hover:bg-gray-950">
       <div className="w-fit flex justify-center items-start">
@@ -114,9 +156,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
           >
             <span className="text-base font-bold cursor-pointer hover:underline">
               {data.author.firstName.slice(0, 1).toUpperCase() +
-                data.author.firstName.slice(1) +
-                " " +
-                (data.author.lastName || "")}
+                data.author.firstName.slice(1)}
             </span>
             <span className="text-sm tracking-wider text-gray-500 cursor-pointer">
               @{data.author.firstName.toLocaleLowerCase()} .{" "}
@@ -127,19 +167,32 @@ const PostCard = ({ data }: { data: PostProps }) => {
                 new Date(parseInt(data.createdAt)).toString().slice(11, 15)}
             </span>
           </div>
-          <div className="text-xl text-gray-300 cursor-pointer  p-1 rounded-xl relative">
-            <IoIosMore
-              className="hover:bg-blue-950 rounded-xl"
-              onClick={() => {
-                setShowMore(!showMore);
-              }}
-            />
+          <div
+            className="text-xl text-gray-300 cursor-pointer  p-1 rounded-xl relative"
+            onClick={() => {
+              setShowMore(!showMore);
+            }}
+          >
+            <IoIosMore className="hover:bg-blue-950 rounded-xl" />
             <div
               className={`border-2 w-fit border-gray-700 text-sm bg-black p-1.5 px-2 rounded-lg absolute top-7 -right-1 z-10 ${
                 showMore ? "flex text-nowrap" : "hidden"
-              }`}
+              } hover:bg-gray-900 cursor-pointer transition-all duration-900`}
             >
-              {user?.id === data.author.id ? "Delete Post" : "Follow Guru"}
+              {user?.id === data.author.id ? (
+                <span onClick={handleDeletePost}>Delete Post</span>
+              ) : (
+                <span
+                  onClick={() =>
+                    followUnfollow(data.author.id, user ? user.id : "")
+                  }
+                >
+                  {amIfollowing ? "" : ""}
+                  {follow ? "Unfollow " : "Follow "}
+                  {data.author.firstName.slice(0, 1).toUpperCase() +
+                    data.author.firstName.slice(1)}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -292,9 +345,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
                         }}
                       >
                         {data.author.firstName.slice(0, 1).toUpperCase() +
-                          data.author.firstName.slice(1) +
-                          " " +
-                          (data.author.lastName || "")}
+                          data.author.firstName.slice(1)}
                       </span>
                       <span className="text-sm text-gray-300 cursor-pointer">
                         @{data.author.firstName.toLocaleLowerCase()} .{" "}

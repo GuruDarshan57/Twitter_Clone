@@ -19,6 +19,9 @@ export const getCurrentUserDataQuery = graphql(`
       likedPosts {
         id
       }
+      following {
+        id
+      }
       recommendedUsers {
         id
         firstName

@@ -131,7 +131,8 @@ const Sidebar = () => {
             )}
             <div className="flex flex-col flex-1 font-bold tracking-wide text-gray-300">
               <p className="h-fit text-sm">
-                {user.firstName + " " + (user.lastName || "")}
+                {user.firstName.slice(0, 1).toUpperCase() +
+                  user.firstName.slice(1)}
               </p>
               <p className="h-fit text-xs lowercase">@{user.firstName}</p>
             </div>

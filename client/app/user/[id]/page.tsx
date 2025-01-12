@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { GoArrowLeft } from "react-icons/go";
 import { HiMiniCalendarDays } from "react-icons/hi2";
@@ -14,8 +14,9 @@ import {
 } from "@graphql/mutation/user";
 import X3Layout from "@components/X3Layout";
 import { getUserDataQuery } from "@graphql/query/user";
-import { User } from "@gql/graphql";
+
 import Loader from "@components/Loader";
+import { User } from "@types";
 
 interface Props {
   params: {

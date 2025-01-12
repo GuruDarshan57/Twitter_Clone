@@ -132,9 +132,7 @@ const RightBar = () => {
                         className="text-sm font-bold cursor-pointer hover:underline"
                       >
                         {user.firstName.slice(0, 1).toUpperCase() +
-                          user.firstName.slice(1) +
-                          " " +
-                          (user.lastName || "")}
+                          user.firstName.slice(1)}
                       </Link>
                       <span className="text-xs text-gray-300 cursor-pointer">
                         {" "}
