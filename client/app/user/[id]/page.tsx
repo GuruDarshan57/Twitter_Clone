@@ -113,9 +113,7 @@ const page = ({ params }: Props) => {
               <div className="w-full flex flex-col relative pb-2">
                 <div className="w-full h-48 bg-neutral-900">
                   <Image
-                    src={
-                      "https://images.unsplash.com/photo-1709884735017-114f4a31f944?q=80&w=1858&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    }
+                    src={`/assets/${Math.round(Math.random() * 5 + 1)}.jpg`}
                     width={1200}
                     height={800}
                     alt="cover_img"
@@ -127,7 +125,7 @@ const page = ({ params }: Props) => {
                   width={1000}
                   height={1000}
                   alt="profile_img"
-                  className="w-32 h-32 rounded-full object-contain -mt-16 ml-4 border-4 border-black"
+                  className="size-28 rounded-full object-contain -mt-16 ml-4 border-4 border-black"
                 />
                 {params.id === user.id ? (
                   <div

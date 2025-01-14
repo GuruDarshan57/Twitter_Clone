@@ -144,7 +144,6 @@ const extraResolver = {
         where: { postId: parent.id },
         include: { author: true },
       });
-      console.log(comments);
       return comments;
     },
   },

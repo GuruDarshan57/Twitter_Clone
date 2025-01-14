@@ -29,7 +29,13 @@ export default function RootLayout({
           <QueryClientProvider client={queryClient}>
             <GoogleOAuthProvider clientId="720949350429-a2bsge3dno32g7a6n3nnem30ao3m2t1k.apps.googleusercontent.com">
               <div className="w-full h-full flex justify-center items-center">
-                <Toaster position="top-center" reverseOrder={false} />
+                <Toaster
+                  position="top-center"
+                  reverseOrder={false}
+                  toastOptions={{
+                    style: { background: "#0ea5e9", color: "white" },
+                  }}
+                />
                 {children}
               </div>
               <ReactQueryDevtools />
