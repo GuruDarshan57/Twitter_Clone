@@ -18,6 +18,8 @@ model User {
   id              String      @id @default(cuid())
   firstName       String
   lastName        String?
+  userName        String
+  location        String
   email           String      @unique
   profileImgUrl   String?
   posts           Post[]

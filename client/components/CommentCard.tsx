@@ -95,7 +95,7 @@ const CommentCard = ({
                 : ""}
             </span>
             <span className="text-sm tracking-wider text-gray-500 cursor-pointer">
-              @{comment.author.firstName?.toLocaleLowerCase()} .{" "}
+              @{comment.author.userName?.toLowerCase()} .{" "}
             </span>
             <span className="text-sm tracking-wide text-gray-500 cursor-pointer hover:underline">
               {new Date(parseInt(comment.createdAt ? comment.createdAt : ""))

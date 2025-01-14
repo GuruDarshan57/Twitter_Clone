@@ -15,7 +15,9 @@ export const getCurrentUserDataQuery = graphql(`
       email
       firstName
       lastName
+      userName
       profileImgUrl
+      location
       likedPosts {
         id
       }
@@ -26,6 +28,7 @@ export const getCurrentUserDataQuery = graphql(`
         id
         firstName
         lastName
+        userName
         profileImgUrl
       }
     }
@@ -39,7 +42,10 @@ export const getUserDataQuery = graphql(`
       id
       firstName
       lastName
+      userName
       profileImgUrl
+      location
+      createdAt
       followers {
         id
       }

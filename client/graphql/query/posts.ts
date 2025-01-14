@@ -24,6 +24,7 @@ export const GetAllPostsQuery = graphql(`
         email
         firstName
         lastName
+        userName
         profileImgUrl
       }
     }
@@ -59,6 +60,7 @@ export const getPostQuery = graphql(`
           id
           firstName
           lastName
+          userName
           profileImgUrl
         }
       }
@@ -67,6 +69,7 @@ export const getPostQuery = graphql(`
         email
         firstName
         lastName
+        userName
         profileImgUrl
       }
     }

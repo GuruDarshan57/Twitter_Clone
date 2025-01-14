@@ -10,3 +10,8 @@ export const UnFollowUserMutation = `#graphql
 mutation Mutation($to: String!) {
   unFollowUser(to: $to)
 }`;
+
+export const EditProfileMutation = `#graphql
+mutation EditProfile($userName: String, $location: String) {
+  editProfile(userName: $userName, Location: $location)
+}`;

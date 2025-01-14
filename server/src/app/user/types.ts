@@ -3,6 +3,8 @@ export const types = `#graphql
         id:ID!
         firstName:String! 
         lastName:String
+        userName:String!
+        location:String
         email:String!
         profileImgUrl:String!
         posts:[Post]
@@ -14,4 +16,5 @@ export const types = `#graphql
         
         followers:[User]
         following:[User]
+        createdAt:String
     }`;

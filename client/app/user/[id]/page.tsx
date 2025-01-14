@@ -17,6 +17,7 @@ import { getUserDataQuery } from "@graphql/query/user";
 
 import Loader from "@components/Loader";
 import { User } from "@types";
+import EditProfilePopup from "@components/EditProfilePopup";
 
 interface Props {
   params: {
@@ -29,6 +30,7 @@ const page = ({ params }: Props) => {
   const { user } = useGetCurrentUserDetails();
   const [activeTab, setActiveTab] = useState("Post");
   const [followState, setFollowState] = useState(false);
+  const [editProfilePopup, setEditProfilePopup] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -87,7 +89,7 @@ const page = ({ params }: Props) => {
         !profileData.id || !user ? (
           <Loader />
         ) : (
-          <div className="w-full flex flex-col h-full max-h-screen overflow-y-scroll hidescrollbar">
+          <div className="w-full flex flex-col h-full max-h-screen overflow-y-scroll hidescrollbar relative">
             <div className="flex w-full p-2 py-1 pl-4 justify-start items-center gap-6 glass_bg border-b-[0.5px] border-slate-700">
               <span
                 className="text-xl cursor-pointer rounded-full p-2 hover:bg-gray-900"
@@ -128,7 +130,10 @@ const page = ({ params }: Props) => {
                   className="w-32 h-32 rounded-full object-contain -mt-16 ml-4 border-4 border-black"
                 />
                 {params.id === user.id ? (
-                  <div className="w-fit p-[5px] px-4 rounded-full border-[0.5px] border-slate-500 absolute right-6 bottom-2 cursor-pointer tracking-wide hover:bg-slate-900">
+                  <div
+                    className="w-fit p-[5px] px-4 rounded-full border-[0.5px] border-slate-500 absolute right-6 bottom-2 cursor-pointer tracking-wide hover:bg-slate-900"
+                    onClick={() => setEditProfilePopup(true)}
+                  >
                     Edit profile
                   </div>
                 ) : (
@@ -155,17 +160,26 @@ const page = ({ params }: Props) => {
                       profileData?.firstName.slice(1)}
                   </span>
                   <span className="tracking-wide text-sm text-gray-500">
-                    @{profileData?.firstName.toLocaleLowerCase()}
+                    @{user?.userName}
                   </span>
                 </div>
                 <div className="flex gap-4 font-thin text-sm tracking-wider text-gray-400">
                   <span className="flex items-center gap-2">
                     <HiOutlineLocationMarker className="text-lg" />{" "}
-                    <span>New Orleans, LA</span>
+                    <span>{user?.location}</span>
                   </span>
                   <span className="flex items-center gap-2">
                     <HiMiniCalendarDays className="text-lg" />{" "}
-                    <span>Joined January 2023</span>
+                    <span>
+                      Joined{" "}
+                      {new Date(parseInt(profileData.createdAt))
+                        .toString()
+                        .slice(4, 7) +
+                        " " +
+                        new Date(parseInt(profileData.createdAt))
+                          .toString()
+                          .slice(11, 15)}
+                    </span>
                   </span>
                 </div>
                 <div className="flex gap-4 font-thin text-sm tracking-wider">
@@ -183,7 +197,7 @@ const page = ({ params }: Props) => {
                   </span>
                 </div>
               </div>
-              <div className="w-full flex font-bold border-slate-700 border-b-[0.5px] cursor-pointer sticky top-0 z-10 glass_bg">
+              <div className="w-full flex font-bold border-slate-700 border-b-[0.5px] cursor-pointer sticky top-0 z-20 glass_bg">
                 <div
                   className="flex-1 flex justify-center items-center hover:bg-gray-950"
                   onClick={() => {
@@ -229,6 +243,7 @@ const page = ({ params }: Props) => {
                           id: profileData?.id,
                           firstName: profileData?.firstName,
                           lastName: profileData?.lastName,
+                          userName: profileData?.userName,
                           profileImgUrl: profileData?.profileImgUrl,
                         },
                       };
@@ -244,6 +259,11 @@ const page = ({ params }: Props) => {
                 )}
               </div>
             </div>
+            {editProfilePopup ? (
+              <EditProfilePopup setEditProfilePopup={setEditProfilePopup} />
+            ) : (
+              ""
+            )}
           </div>
         )
       }

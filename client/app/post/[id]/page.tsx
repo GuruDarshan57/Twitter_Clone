@@ -60,7 +60,7 @@ const page = ({ params }: Props) => {
           <Loader />
         ) : (
           <div className="w-full flex flex-col pb-20 h-full max-h-screen overflow-y-scroll hidescrollbar">
-            <div className="flex w-full p-3 pl-4 justify-start items-center gap-6 glass_bg border-b-[0.5px] border-slate-700 sticky top-0">
+            <div className="flex w-full p-3 pl-4 justify-start items-center gap-6 glass_bg border-b-[0.5px] border-slate-700 sticky top-0 z-20">
               <span
                 className="text-xl cursor-pointer rounded-full p-2 hover:bg-gray-900"
                 onClick={() => {

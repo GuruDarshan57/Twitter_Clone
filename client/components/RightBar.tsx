@@ -136,7 +136,7 @@ const RightBar = () => {
                       </Link>
                       <span className="text-xs text-gray-300 cursor-pointer">
                         {" "}
-                        @{user.firstName.toLocaleLowerCase()}
+                        @{user.userName.toLowerCase()}
                       </span>
                     </div>
                     <Link

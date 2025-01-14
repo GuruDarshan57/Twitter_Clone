@@ -159,7 +159,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
                 data.author.firstName.slice(1)}
             </span>
             <span className="text-sm tracking-wider text-gray-500 cursor-pointer">
-              @{data.author.firstName.toLocaleLowerCase()} .{" "}
+              @{data.author.userName?.toLowerCase()} .{" "}
             </span>
             <span className="text-sm tracking-wide text-gray-500 hover:underline">
               {new Date(parseInt(data.createdAt)).toString().slice(4, 10) +
@@ -311,7 +311,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
             </span>
           </div>
           {commentPopup ? (
-            <div className="w-full h-full flex justify-center text-white bg-black absolute top-0 left-0 z-10 glass_bg">
+            <div className="w-full h-full flex justify-center text-white bg-black absolute top-0 left-0 z-30 glass_bg">
               <div className="w-full h-fit flex flex-col gap-2 bg-black mx-4 sm:mx-10 mt-5 px-4 border-gray-800 border-2 rounded-2xl">
                 <span className="w-full relative">
                   <MdCancel

@@ -16,7 +16,9 @@ import { IoIosMore } from "react-icons/io";
 import Link from "next/link";
 import { useGetCurrentUserDetails } from "@hooks/user";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@node_modules/next/navigation";
 
 interface Menuitem {
   name: string;
@@ -28,11 +30,21 @@ interface Menuitem {
 
 const Sidebar = () => {
   const { user } = useGetCurrentUserDetails();
+  const queryClient = useQueryClient();
   const [path, setPath] = useState("");
+  const [showMore, setShowMore] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setPath(window.location.pathname);
   }, []);
+
+  const handleLogOut = () => {
+    window.localStorage.removeItem("X_token");
+    toast.success("Logged Out Successfully");
+    queryClient.invalidateQueries({ queryKey: ["user-data"] });
+    window.location.replace("/");
+  };
 
   const sidebar_menu_items: Menuitem[] = [
     {
@@ -123,6 +135,7 @@ const Sidebar = () => {
                 width={100}
                 height={100}
                 className="w-10 h-10 object-contain rounded-full"
+                onClick={() => router.replace(`/user/${user.id}`)}
               />
             ) : (
               <span className="text-4xl">
@@ -134,10 +147,24 @@ const Sidebar = () => {
                 {user.firstName.slice(0, 1).toUpperCase() +
                   user.firstName.slice(1)}
               </p>
-              <p className="h-fit text-xs lowercase">@{user.firstName}</p>
+              <p className="h-fit text-xs lowercase">@{user?.userName}</p>
             </div>
-            <span className="text-2xl cursor-pointer relative right-2">
+            <span
+              className="text-2xl cursor-pointer relative right-2"
+              onClick={() => setShowMore(!showMore)}
+            >
               <IoIosMore />
+
+              {showMore ? (
+                <div
+                  className="border-2 border-gray-700 flex text-nowrap text-sm p-1 px-2 rounded-lg bg-black absolute -right-2 bottom-6 z-10"
+                  onClick={handleLogOut}
+                >
+                  Log Out
+                </div>
+              ) : (
+                ""
+              )}
             </span>
           </div>
           <div className="sm:pr-4 lg:hidden">

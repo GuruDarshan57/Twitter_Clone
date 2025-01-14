@@ -7,6 +7,7 @@ export interface PostProps {
     id: string;
     firstName: string;
     lastName?: string | null;
+    userName: string;
     profileImgUrl: string;
   };
   likes: { id: string }[];
@@ -19,6 +20,7 @@ export interface PostProps {
       id?: string;
       firstName?: string;
       lastName?: string;
+      userName?: string;
       profileImgUrl?: string;
     };
   }[];
@@ -32,6 +34,7 @@ export interface Comment {
     id?: string;
     firstName?: string;
     lastName?: string;
+    userName?: string;
     profileImgUrl?: string;
   };
 }
@@ -40,8 +43,11 @@ export interface User {
   id: string;
   firstName: string;
   lastName: string;
+  userName: string;
+  location: string;
   email: string;
   profileImgUrl: string;
+  createdAt: string;
   posts: PostProps[];
   likedPosts: PostProps[];
   bookmarkedPosts: PostProps[];

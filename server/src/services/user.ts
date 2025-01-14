@@ -19,6 +19,8 @@ class UserService {
         data: {
           firstName: data.given_name,
           lastName: data.family_name,
+          userName: data.given_name,
+          location: "Earth",
           email: data.email,
           profileImgUrl: data.picture,
         },
@@ -69,6 +71,18 @@ class UserService {
       },
     });
     await redisClient.del(`RECOMMENDED_USERS:${from}`);
+    return true;
+  }
+  //edit profile
+  public static async editProfile(
+    id: string,
+    userName: string,
+    location: string
+  ) {
+    await prismaClient.user.update({
+      where: { id },
+      data: { userName, location },
+    });
     return true;
   }
 }

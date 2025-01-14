@@ -49,6 +49,14 @@ const mutations = {
     if (!contextValue.user) throw new Error("You are not Authenticated");
     return UserService.unFollowUser(contextValue.user.id, to);
   },
+  editProfile: async (
+    parent: any,
+    { userName, Location }: { userName: string; Location: string },
+    contextValue: GraphqlContext
+  ) => {
+    if (!contextValue.user) throw new Error("You are not Authenticated");
+    return UserService.editProfile(contextValue.user.id, userName, Location);
+  },
 };
 
 const extraResolver = {
