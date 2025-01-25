@@ -1,5 +1,9 @@
 import { graphqlClient } from "@clients/api";
-import { getCurrentUserDataQuery, getUserDataQuery } from "@graphql/query/user";
+import {
+  getCurrentUserDataQuery,
+  getTrendingDataQuery,
+  getUserDataQuery,
+} from "@graphql/query/user";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetCurrentUserDetails = () => {
@@ -8,4 +12,12 @@ export const useGetCurrentUserDetails = () => {
     queryFn: () => graphqlClient.request(getCurrentUserDataQuery),
   });
   return { ...query, user: query.data?.getCurrentUserData };
+};
+
+export const useGetTrendingData = () => {
+  const query = useQuery({
+    queryKey: ["trending-data"],
+    queryFn: () => graphqlClient.request(getTrendingDataQuery),
+  });
+  return { ...query, trending: query.data?.getTrendingData };
 };

@@ -3,6 +3,7 @@ import { GraphqlContext } from "../../interfaces";
 import { PrismaClient, User } from "@prisma/client";
 import UserService from "../../services/user";
 import { redisClient } from "../../client/redis";
+import TrendingDataService from "../../services/TrendingData";
 
 const queries = {
   verifyGoogleToken: async (parent: any, { token }: { token: string }) => {
@@ -29,6 +30,13 @@ const queries = {
     if (!contextValue.user) throw new Error("You are not Authenticated");
     const user = await prismaClient.user.findUnique({ where: { id } });
     return user;
+  },
+  getTrendingData: async (
+    parent: any,
+    args: any,
+    contextValue: GraphqlContext
+  ) => {
+    return TrendingDataService.getTrendingData();
   },
 };
 

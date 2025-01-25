@@ -2,6 +2,8 @@ import { graphql } from "../../gql";
 
 //GraphQL queries related to user
 
+//enclose query within gql to get return types
+
 export const verifyUserGoogleTokenQuery = graphql(`
   query verifyUserGoogleTokenQuery($token: String!) {
     verifyGoogleToken(token: $token)
@@ -70,6 +72,17 @@ export const getUserDataQuery = graphql(`
           id
         }
       }
+    }
+  }
+`);
+
+export const getTrendingDataQuery = graphql(`
+  #graphql
+  query GetTrendingData {
+    getTrendingData {
+      name
+      domain
+      post_count
     }
   }
 `);

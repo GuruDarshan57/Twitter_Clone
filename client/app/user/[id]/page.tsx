@@ -113,7 +113,7 @@ const page = ({ params }: Props) => {
               <div className="w-full flex flex-col relative pb-2">
                 <div className="w-full h-48 bg-neutral-900">
                   <Image
-                    src={`/assets/${Math.round((Math.random() * 5) + 1)}.jpg`}
+                    src={`/assets/${Math.floor(Math.random() * 5 + 1)}.jpg`}
                     width={1200}
                     height={800}
                     alt="cover_img"

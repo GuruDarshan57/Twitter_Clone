@@ -17,4 +17,9 @@ export const types = `#graphql
         followers:[User]
         following:[User]
         createdAt:String
+    }
+    type TrendingData{
+        name:String
+        domain:String
+        post_count:String
     }`;

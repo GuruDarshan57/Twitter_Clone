@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { FaApple } from "react-icons/fa";
 import toast from "react-hot-toast";
@@ -7,15 +7,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { graphqlClient } from "@clients/api";
 import { verifyUserGoogleTokenQuery } from "@graphql/query/user";
-import { useGetCurrentUserDetails } from "@hooks/user";
+import { useGetCurrentUserDetails, useGetTrendingData } from "@hooks/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { IoSearchOutline } from "react-icons/io5";
 
 const RightBar = () => {
   const { user } = useGetCurrentUserDetails();
+  const { trending } = useGetTrendingData();
   const queryClient = useQueryClient();
+  const [trendingShowMore, setTrendingShowMore] = useState(false);
 
-  //google login handler
+  //Non-logged in user login with google
   const handleLoginWithGoogle = useCallback(
     async (cred: CredentialResponse) => {
       const googleToken = cred.credential;
@@ -36,8 +38,9 @@ const RightBar = () => {
     [queryClient]
   );
   return (
-    <div className="h-screen max-h-screen w-full p-2 pt-4 pl-6 overflow-y-scroll hidescrollbar">
+    <div className="h-screen max-h-screen  w-full flex flex-col gap-4 p-2 pt-4 pl-6 overflow-y-scroll hidescrollbar">
       {!user ? (
+        //sign-in
         <div className="flex flex-col gap-4 border-2 border-gray-800 rounded-xl px-4 py-3">
           <div className="flex flex-col gap-3">
             <p className="font-extrabold tracking-wide">New to X ?</p>
@@ -100,6 +103,7 @@ const RightBar = () => {
           </div>
         </div>
       ) : (
+        //search bar
         <div className="w-full flex flex-col gap-4 ">
           <div className="w-full group flex items-center h-11 bg-zinc-900 rounded-full px-2 hover:border-[0.5px] hover:border-sky-500">
             <span className="text-2xl text-zinc-600 px-2 group-hover:text-sky-500">
@@ -112,7 +116,8 @@ const RightBar = () => {
             />
           </div>
           {user?.recommendedUsers ? (
-            <div className="w-full border-slate-700 border-[0.5px] rounded-lg flex flex-col px-4 py-3 gap-3">
+            //user recommendations
+            <div className="w-full border-slate-700 border-[0.5px] rounded-lg flex flex-col px-4 py-3 gap-3 ">
               <span className="font-extrabold tracking-wide text-lg">
                 Who to follow
               </span>
@@ -156,7 +161,47 @@ const RightBar = () => {
           )}
         </div>
       )}
-      <div className="w-full flex flex-wrap gap-2 text-gray-500 px-1 py-3">
+      {/* Trending*/}
+      {trending ? (
+        <div className="w-full flex flex-col gap-3 border-slate-700 border-[0.5px] px-4 py-3 rounded-lg relative transition-transform">
+          <div className="w-full font-extrabold tracking-wide text-lg">
+            Trending
+          </div>
+          <div
+            className={`flex flex-col ${
+              trendingShowMore ? "" : "h-96"
+            } overflow-hidden pb-10 gap-2`}
+          >
+            {trending.map((trend, index) =>
+              trend ? (
+                <div className="flex flex-col gap-1">
+                  <div className="text-xs tracking-wider text-gray-400">
+                    {index + 1}. {trend.domain}
+                  </div>
+                  <div className="text-sm font-bold tracking-widest">
+                    {trend.name}
+                  </div>
+                  <div className="text-xs tracking-wider text-gray-400">
+                    {trend.post_count}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )
+            )}
+            <div
+              onClick={() => setTrendingShowMore(!trendingShowMore)}
+              className="w-full flex items-center justify-center cursor-pointer font-bold p-2 rounded-b-lg bg-zinc-900 text-white border-gray-800 border-t-[0.5px] absolute left-0 bottom-0 "
+            >
+              Show {trendingShowMore ? "Less" : "More"}
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
+      <div className="w-full flex flex-wrap gap-2 text-gray-500 px-1">
         <Link
           href="https://x.com/en/tos"
           target="_blank"
@@ -193,7 +238,9 @@ const RightBar = () => {
           Ads info
         </Link>
         <span className="text-xs hover:underline">More</span>
-        <span className="text-xs hover:underline">© 2024 X Corp.</span>
+        <span className="text-xs hover:underline">
+          © {new Date().getFullYear()} X Corp.
+        </span>
       </div>
     </div>
   );

@@ -55,3 +55,9 @@ export interface User {
   followers: User[];
   following: User[];
 }
+
+export interface TrendingData {
+  name: string;
+  domain: string;
+  post_count: string;
+}

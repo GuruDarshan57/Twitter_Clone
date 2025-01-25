@@ -27,6 +27,7 @@ const Home: React.FC = () => {
     !user ? router.push("/") : "";
   }, []);
 
+  //log outs the user and removes the token from local storage
   const handleLogOut = () => {
     window.localStorage.removeItem("X_token");
     toast.success("Logged Out Successfully");
@@ -40,7 +41,6 @@ const Home: React.FC = () => {
           <div className="w-full h-full max-h-full overflow-y-scroll hidescrollbar flex flex-col">
             <div className="w-full p-4 pl-2.5  flex justify-between items-center border-gray-800 border-b-[0.5px] sticky top-0 glass_bg z-20">
               <div className="flex gap-3 items-center">
-                {" "}
                 <div className="w-12 sm:hidden ">
                   {user?.profileImgUrl ? (
                     <>

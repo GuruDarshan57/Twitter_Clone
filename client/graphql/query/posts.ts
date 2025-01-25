@@ -2,6 +2,8 @@ import { graphql } from "../../gql";
 
 //GraphQL queries related to post
 
+//enclose query within gql to get return types
+
 export const GetAllPostsQuery = graphql(`
   #graphql
   query GetAllPosts {
