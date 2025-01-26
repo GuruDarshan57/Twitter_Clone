@@ -86,6 +86,15 @@ const extraResolver = {
       return followers.map((ele) => ele.following);
     },
     recommendedUsers: async (parent: User) => {
+      // const cachedRecommendedUsers = await redisClient.get(
+      //   `RECOMMENDED_USERS:${parent.id}`
+      // );
+      // if (cachedRecommendedUsers) {
+      //   // console.log("Cached Recommended Users");
+      //   return JSON.parse(cachedRecommendedUsers);
+      // }
+
+      //folowed users and their followings
       const myfollowings = await prismaClient.follows.findMany({
         where: { followerId: parent.id },
         include: {
@@ -95,36 +104,46 @@ const extraResolver = {
         },
       });
 
-      const cachedRecommendedUsers = await redisClient.get(
-        `RECOMMENDED_USERS:${parent.id}`
-      );
-      if (cachedRecommendedUsers) {
-        // console.log("Cached Recommended Users");
-        return JSON.parse(cachedRecommendedUsers);
+      //following user id's
+      let followingIdList = [];
+      for (const following of myfollowings) {
+        followingIdList.push(following.followingId);
       }
 
-      let recommendedUsers: User[] = [];
+      //non following users
+      //covers edge case where user doesnt follow anyone or follows everyone his followers follow
+      const non_follwing_users = await prismaClient.user.findMany({
+        where: {
+          NOT: { id: { in: followingIdList } },
+        },
+        take: 4,
+      });
 
+      let recommendedUsers: User[] = non_follwing_users;
+
+      //recommended users from followings
       for (const following of myfollowings) {
         for (const following_following of following.following.followings) {
           const recommendedUser = following_following.following;
           if (
+            //making sure recommended user is not the parent user or already followed or already in recommend list
             recommendedUser.id !== parent.id &&
             !myfollowings.find(
-              (ele) =>
-                ele.followingId == recommendedUser.id &&
-                !recommendedUsers.find((ele) => ele.id == recommendedUser.id)
-            )
+              (ele) => ele.followingId == recommendedUser.id
+            ) &&
+            !recommendedUsers.find((ele) => ele.id == recommendedUser.id)
           ) {
             recommendedUsers.push(recommendedUser);
           }
         }
       }
 
-      await redisClient.set(
-        `RECOMMENDED_USERS:${parent.id}`,
-        JSON.stringify(recommendedUsers)
-      );
+      console.log(recommendedUsers);
+
+      // await redisClient.set(
+      //   `RECOMMENDED_USERS:${parent.id}`,
+      //   JSON.stringify(recommendedUsers)
+      // );
       return recommendedUsers;
     },
     likedPosts: async (parent: User) => {

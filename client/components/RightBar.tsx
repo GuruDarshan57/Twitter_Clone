@@ -115,7 +115,7 @@ const RightBar = () => {
               className="flex-1 h-7 rounded-lg pl-4 outline-none bg-transparent placeholder:font-light placeholder:tracking-wide"
             />
           </div>
-          {user?.recommendedUsers ? (
+          {user && user.recommendedUsers && user.recommendedUsers.length > 0 ? (
             //user recommendations
             <div className="w-full border-slate-700 border-[0.5px] rounded-lg flex flex-col px-4 py-3 gap-3 ">
               <span className="font-extrabold tracking-wide text-lg">
