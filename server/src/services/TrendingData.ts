@@ -59,6 +59,14 @@ export default class TrendingDataService {
         Accept: "*/*",
       };
 
+      console.log(
+        process.env.TWITTER_BEARER_TOKEN +
+          " " +
+          process.env.TWITTER_X_CSRF_TOKEN +
+          " " +
+          process.env.TWITTER_COOKIE
+      );
+
       const trends = await axios.get(url, { params, headers });
       const trendData =
         trends.data.data.timeline.timeline.instructions[2].entries;
