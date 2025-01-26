@@ -84,7 +84,7 @@ export default class TrendingDataService {
       return tdata;
     } catch (e) {
       if (e instanceof Error) {
-        console.log("Error " + e.message);
+        console.log("Error " + e);
       }
     }
   }
