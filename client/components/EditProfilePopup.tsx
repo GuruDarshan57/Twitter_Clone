@@ -30,7 +30,7 @@ const EditProfilePopup = ({
     }
   };
   return (
-    <div className="w-full h-full flex justify-center p-5 sm:p-8 glass_bg absolute top-0 right-0 z-30">
+    <div className="w-full h-full flex justify-center p-5 sm:p-8 glass_bg absolute top-0 right-0 z-30 animate__animated animate__fadeIn">
       <div className="w-96 h-fit p-5 px-5 tracking-wide flex flex-col gap-2 bg-black border-gray-800 border-2 rounded-2xl relative">
         <MdCancel
           className="absolute right-3 top-3 hover:text-white cursor-pointer"

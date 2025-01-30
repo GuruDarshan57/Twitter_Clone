@@ -34,15 +34,9 @@ class UserService {
 
   //to get logged in user
   public static async getCurrentUserData(userEmail: string) {
-    // const cachedCurrentUser = await redisClient.get(userEmail);
-    // if (cachedCurrentUser) {
-    //   // console.log("Cached User");
-    //   return JSON.parse(cachedCurrentUser);
-    // }
     const currentUser = await prismaClient.user.findUnique({
       where: { email: userEmail },
     });
-    // await redisClient.set(userEmail, JSON.stringify(currentUser));
     return currentUser;
 
     //to get user by id

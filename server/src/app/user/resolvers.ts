@@ -86,13 +86,14 @@ const extraResolver = {
       return followers.map((ele) => ele.following);
     },
     recommendedUsers: async (parent: User) => {
-      // const cachedRecommendedUsers = await redisClient.get(
-      //   `RECOMMENDED_USERS:${parent.id}`
-      // );
-      // if (cachedRecommendedUsers) {
-      //   // console.log("Cached Recommended Users");
-      //   return JSON.parse(cachedRecommendedUsers);
-      // }
+      //return cache if exists
+      const cachedRecommendedUsers = await redisClient.get(
+        `RECOMMENDED_USERS:${parent.id}`
+      );
+      if (cachedRecommendedUsers) {
+        // console.log("Cached Recommended Users");
+        return JSON.parse(cachedRecommendedUsers);
+      }
 
       //folowed users and their followings
       const myfollowings = await prismaClient.follows.findMany({
@@ -138,12 +139,12 @@ const extraResolver = {
         }
       }
 
-      console.log(recommendedUsers);
+      //cache recommended users
+      await redisClient.set(
+        `RECOMMENDED_USERS:${parent.id}`,
+        JSON.stringify(recommendedUsers)
+      );
 
-      // await redisClient.set(
-      //   `RECOMMENDED_USERS:${parent.id}`,
-      //   JSON.stringify(recommendedUsers)
-      // );
       return recommendedUsers;
     },
     likedPosts: async (parent: User) => {

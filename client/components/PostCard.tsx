@@ -311,7 +311,7 @@ const PostCard = ({ data }: { data: PostProps }) => {
             </span>
           </div>
           {commentPopup ? (
-            <div className="w-full h-full flex justify-center text-white bg-black absolute top-0 left-0 z-30 glass_bg">
+            <div className="w-full h-full flex justify-center text-white bg-black absolute top-0 left-0 z-30 glass_bg ">
               <div className="w-full h-fit flex flex-col gap-2 bg-black mx-4 sm:mx-10 mt-5 px-4 border-gray-800 border-2 rounded-2xl">
                 <span className="w-full relative">
                   <MdCancel
